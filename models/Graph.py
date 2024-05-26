@@ -32,3 +32,17 @@ class Graph:
             if not self.path(0, i):
                 return False
         return True
+
+    def degrees(self):
+        degrees = [0] * self.size
+        for i in range(self.size):
+            degrees[i] = sum(self.matrix[i])
+        return degrees
+
+    def is_regular(self):
+        degrees = self.degrees()
+        first_degree = degrees[0]
+        for degree in degrees:
+            if degree != first_degree:
+                return False
+        return True
