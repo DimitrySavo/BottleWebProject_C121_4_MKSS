@@ -24,6 +24,10 @@ def page3():
 def page4():
     return '<h1>Page 4</h1><p>This is the content of page 4.</p>'
 
+@app.route('/about')
+def authors():
+    return template('about')
+
 # Маршрут для статических файлов (CSS)
 @app.route('/static/<filepath:path>')
 def server_static(filepath):
