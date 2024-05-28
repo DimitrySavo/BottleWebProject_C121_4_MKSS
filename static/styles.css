@@ -68,10 +68,18 @@ header, footer {
 }
 
 .container {
-
     grid-area: main;
-    background-color: #333;
+    background-color: #e8e6e6;
     padding: 20px;
+    width: 60%;
+}
+
+.container h2{
+    font-size: 180%;
+}
+
+.container p{
+    font-size: 120%;
 }
 
 h1 {
@@ -82,6 +90,8 @@ h1 {
 
 .creator-info {
     display: flex;
+    width: 100%;
+    height: 50%;
     flex-direction: column;
     margin-top: 20px;
     justify-content: center;
@@ -93,15 +103,17 @@ h1 {
     width: 100%;
 }
 
+
+
 .creator img {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     margin-right: 20px;
 }
 
 .Creator-Image{
-    background-color: #444;
+    background-color: #f5f2f2;
     padding: 5% 2%;
     transform: scale(1);
     transition: transform 0.3s, background-color 0.3s;
@@ -120,7 +132,7 @@ h1 {
 
 .Creator-Image:hover{
     transform: scale(1.2);
-    background-color: #5116b1;
+    background-color: #5c4ce6;
     box-shadow: 1px 3px 20px -5px #00706b;
 }
 
