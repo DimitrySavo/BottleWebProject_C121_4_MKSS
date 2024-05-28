@@ -22,6 +22,5 @@ def about():
     return template('about')
 
 # Маршрут для статических файлов (CSS)
-@route('/static/<filepath:path>')
 def server_static(filepath):
     return static_file(filepath, root='./static')
