@@ -66,3 +66,69 @@ header, footer {
     transform: scale(1.05);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
+
+.container {
+
+    grid-area: main;
+    background-color: #333;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #bbbbbb;
+    margin-bottom: 20px;
+}
+
+.creator-info {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.creator {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.creator img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.Creator-Image{
+    background-color: #444;
+    padding: 5% 2%;
+    transform: scale(1);
+    transition: transform 0.3s, background-color 0.3s;
+    border-radius: 50px;
+}
+
+.Creator-Image a{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.Creator-Image *{
+    color: #bbbbbb;
+}
+
+.Creator-Image:hover{
+    transform: scale(1.2);
+    background-color: #5116b1;
+    box-shadow: 1px 3px 20px -5px #00706b;
+}
+
+.Creator-forBack{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.contact-info{
+    color: #bbbbbb;
+}

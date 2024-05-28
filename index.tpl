@@ -8,6 +8,7 @@
 <body>
     <header>
         <h1>Header</h1>
+        <a href="/about">About us</a>
     </header>
     <div class="grid-container">
         <div class="grid-item item1" onclick="location.href='/page1'">
