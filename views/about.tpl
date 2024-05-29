@@ -6,9 +6,9 @@
     <title>Авторы</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
-<body>
+<body >
     <div class="container">
-        <h1>Информация о создателях сайта</h1>
+        <h1 class="H1">Информация о создателях сайта</h1>
         <div style="display: flex; justify-content: center;">
         <div class="creator-info">
             <div class="creator">
