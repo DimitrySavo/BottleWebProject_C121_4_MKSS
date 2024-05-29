@@ -9,7 +9,10 @@ app = Bottle()
 
 app.route('/', 'GET', index)
 app.route('/about', 'GET', about)
-app.route('/basePage','GET', page1)
+app.route('/concatenatedGraphs','GET', concatenatedGraphs)
+app.route('/edgesCount','GET', edgesCount)
+app.route('/vertexEdgesRights','GET', vertexEdgesRights)
+app.route('/isolatedSubgraphsDiameter','GET', isolatedSubgraphsDiameter)
 app.route('/static/<filepath:path>', 'GET', server_static)
 
 @app.post('/create_graph')
@@ -21,14 +24,13 @@ def create_graph():
     G = nx.Graph()
     G.add_nodes_from(range(1, size + 1))
     
-    # Корректируем ребра, чтобы они также относились к новым узлам
     corrected_edges = [(edge[0] + 1, edge[1] + 1) for edge in edges]
 
     G.add_edges_from(corrected_edges)
 
     is_connected = nx.is_connected(G)
 
-    # Рисуем граф и сохраняем его в base64
+    # Рисуем граф
     plt.figure(figsize=(8, 8))
     pos = nx.spring_layout(G)
     nx.draw(G, pos, with_labels=True, node_size=700, node_color='lightblue', font_size=10, font_color='black', font_weight='bold', edge_color='gray')

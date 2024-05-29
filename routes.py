@@ -5,18 +5,18 @@ def index():
     return template('index')
 
 # Страницы для перехода
-def page1():
-    return template('basePage')
+def concatenatedGraphs():
+    return template('concatenatedGraphs')
 
-def page2():
-    return '<h1>Page 2</h1><p>This is the content of page 2.</p>'
+def edgesCount():
+    return template('edgesCount')
 
-def page3():
-    return '<h1>Page 3</h1><p>This is the content of page 3.</p>'
+def vertexEdgesRights():
+    return template('vertexEdgesRights')
 
 
-def page4():
-    return '<h1>Page 4</h1><p>This is the content of page 4.</p>'
+def isolatedSubgraphsDiameter():
+    return template('isolatedSubgraphsDiameter')
 
 def about():
     return template('about')
