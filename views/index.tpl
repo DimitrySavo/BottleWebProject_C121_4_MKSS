@@ -11,7 +11,7 @@
         <a href="/about">About us</a>
     </header>
     <div class="grid-container">
-        <div class="grid-item item1" onclick="location.href='/page1'">
+        <div class="grid-item item1" onclick="location.href='/basePage'">
             <h2>Box 1</h2>
             <p>This is the first box.</p>
         </div>

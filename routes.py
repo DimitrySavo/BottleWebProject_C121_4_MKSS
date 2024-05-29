@@ -6,7 +6,7 @@ def index():
 
 # Страницы для перехода
 def page1():
-    return '<h1>Page 1</h1><p>This is the content of page 1.</p>'
+    return template('basePage')
 
 def page2():
     return '<h1>Page 2</h1><p>This is the content of page 2.</p>'
