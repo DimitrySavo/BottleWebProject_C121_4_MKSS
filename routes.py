@@ -6,7 +6,7 @@ def index():
 
 # Страницы для перехода
 def concatenatedGraphs():
-    return template('concatenatedGraphs')
+    return template('concatenatedGraphs', header = template('header.tpl'), footer = template('footer.tpl'))
 
 def edgesCount():
     return template('edgesCount')

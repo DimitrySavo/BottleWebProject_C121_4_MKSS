@@ -5,6 +5,9 @@
     <title>Graph Adjacency Matrix</title>
     <link rel="stylesheet" href="/static/basePageStyle.css">
 </head>
+<header>
+    {{ !header }}
+</header>
 <body>
     <div class="container">
         <div class="left">
@@ -118,4 +121,7 @@
         });
     </script>
 </body>
+<footer>
+    {{ !footer }}
+</footer>
 </html>
