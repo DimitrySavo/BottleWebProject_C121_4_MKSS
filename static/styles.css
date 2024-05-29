@@ -134,7 +134,7 @@ h1 {
 
 /* Анимация при наведении на карточку */
 .Creator-Image:hover{
-    transform: scale(1.05);
+    transform: scale(1.1);
     background: linear-gradient(90deg, rgba(90, 185, 234, 1) 31.997138261795044%, rgba(81, 119, 214, 1) 74.8729407787323%);
     box-shadow: 1px 3px 20px -5px #00706b;
 }
