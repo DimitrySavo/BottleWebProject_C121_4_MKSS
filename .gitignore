@@ -162,3 +162,5 @@ cython_debug/
 
 #Ignore readme
 *.md
+__pycache__/routes.cpython-311.pyc
+__pycache__/routes.cpython-312.pyc
