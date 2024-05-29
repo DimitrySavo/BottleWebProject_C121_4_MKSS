@@ -14,7 +14,6 @@ def page2():
 def page3():
     return '<h1>Page 3</h1><p>This is the content of page 3.</p>'
 
-
 def page4():
     return '<h1>Page 4</h1><p>This is the content of page 4.</p>'
 
