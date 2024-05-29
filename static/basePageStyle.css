@@ -4,8 +4,20 @@ body {
     padding: 0;
     background-color: #f0f0f0;
     color: #333;
+    min-height: 100vh;
+    display: grid;
+    grid-template-areas: 
+    'header'
+    'main'
+    'footer';
+    grid-template-rows: 100px minmax(calc(100% - 250px), auto) 150px;
 }
-.container {
+
+.main-container{
+    grid-area: main;
+}
+
+.container-base-page {
     display: flex;
     justify-content: space-between;
     padding: 20px;

@@ -5,7 +5,7 @@
     <title>Sample Page</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
-<body>
+<body class="body">
     <header>
         {{ !header }}
     </header>

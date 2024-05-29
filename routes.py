@@ -9,14 +9,14 @@ def concatenatedGraphs():
     return template('concatenatedGraphs', header = template('header.tpl'), footer = template('footer.tpl'))
 
 def edgesCount():
-    return template('edgesCount')
+    return template('edgesCount', header = template('header.tpl'), footer = template('footer.tpl'))
 
 def vertexEdgesRights():
-    return template('vertexEdgesRights')
+    return template('vertexEdgesRights', header = template('header.tpl'), footer = template('footer.tpl'))
 
 
 def isolatedSubgraphsDiameter():
-    return template('isolatedSubgraphsDiameter')
+    return template('isolatedSubgraphsDiameter', header = template('header.tpl'), footer = template('footer.tpl'))
 
 def about():
     return template('about')
