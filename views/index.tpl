@@ -7,8 +7,7 @@
 </head>
 <body>
     <header>
-        <h1>Header</h1>
-        <a href="/about">About us</a>
+        {{ !header }}
     </header>
     <div class="grid-container">
         <div class="grid-item item1" onclick="location.href='/page1'">
@@ -29,7 +28,7 @@
         </div>
     </div>
     <footer>
-        <p>Footer</p>
+        {{ !footer }}
     </footer>
 </body>
 </html>

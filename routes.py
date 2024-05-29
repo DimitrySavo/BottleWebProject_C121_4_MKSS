@@ -2,7 +2,7 @@ from bottle import Bottle, run, request, static_file, template, response, route
 import json
 
 def index():
-    return template('index')
+    return template('index', header = template('header.tpl'), footer = template('footer.tpl'))
 
 # Страницы для перехода
 def page1():

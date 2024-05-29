@@ -19,14 +19,31 @@ body {
 
 header, footer {
     width: 100%;
-    background-color: #333;
+    background-color: #7473735f;
     color: white;
     text-align: center;
     padding: 10px 0;
     height: 100%;
 }
+
 header{
     grid-area: header;
+    position: sticky;
+    display: grid;
+    z-index: 999;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+header h1{
+    font-size: 30px;
+    grid-column: 2;
+    color: #fff;
+}
+
+header a{
+    grid-column: 3;
+    text-decoration: none;
+    color: #fff;
 }
 
 footer{
