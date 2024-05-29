@@ -88,23 +88,24 @@ h1 {
     margin-bottom: 20px;
 }
 
+/* Стили для информации о создателях */
 .creator-info {
     display: flex;
     width: 100%;
-    height: 50%;
+    /* height: 50%; */
     flex-direction: column;
     margin-top: 20px;
     justify-content: center;
     align-items: center;
 }
 
+/* Стили для каждой карточки создателя */
 .creator {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     width: 100%;
 }
 
-
-
+/* Стили для изображения создателя и его контейнера */
 .creator img {
     width: 200px;
     height: 200px;
@@ -116,7 +117,7 @@ h1 {
     background-color: #f5f2f2;
     padding: 5% 2%;
     transform: scale(1);
-    transition: transform 0.3s, background-color 0.3s;
+    transition: transform 0.2s, background-color 0.2s;
     border-radius: 50px;
 }
 
@@ -126,13 +127,15 @@ h1 {
     align-items: center;
 }
 
+/* Общие стили для текста внутри карточки */
 .Creator-Image *{
     color: #bbbbbb;
 }
 
+/* Анимация при наведении на карточку */
 .Creator-Image:hover{
-    transform: scale(1.2);
-    background-color: #5c4ce6;
+    transform: scale(1.05);
+    background: linear-gradient(90deg, rgba(90, 185, 234, 1) 31.997138261795044%, rgba(81, 119, 214, 1) 74.8729407787323%);
     box-shadow: 1px 3px 20px -5px #00706b;
 }
 
