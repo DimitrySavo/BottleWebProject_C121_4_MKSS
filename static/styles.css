@@ -7,7 +7,6 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #f0f0f0;
     min-height: 100vh;
     display: grid;
     grid-template-areas: 
@@ -15,6 +14,21 @@ body {
     'main'
     'footer';
     grid-template-rows: 100px minmax(calc(100% - 250px), auto) 150px;
+    position: relative;
+}
+
+body::before{
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    z-index: -1;
+    background: repeating-conic-gradient(
+        rgba(90, 185, 234, 1),
+        rgba(163, 139, 231, 1),
+        rgba(137, 166, 238, 1),
+        rgba(193, 200, 228, 1)
+      );
+    filter: blur(10px);
 }
 
 header, footer {
@@ -103,10 +117,25 @@ footer{
 
 .container {
     grid-area: main;
-    background-color: #e8e6e6;
-    padding: 20px;
-    width: 60%;
+    background-color:rgb(142, 170, 222);
+    padding: 40px; /* Увеличенный внутренний отступ */
+    width: 90%; /* Увеличенная ширина контейнера */
+    margin: auto; /* Центрирование контейнера */
+    position: relative; /* Для псевдоэлемента ::before */
 }
+
+/* .container::before{
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    z-index: -1;
+    background: repeating-conic-gradient(
+        rgba(90, 185, 234, 1),
+        rgba(163, 139, 231, 1),
+        rgba(137, 166, 238, 1),
+        rgba(193, 200, 228, 1)
+      );
+} */
 
 .container h2{
     font-size: 180%;
@@ -120,6 +149,10 @@ h1 {
     text-align: center;
     color: #bbbbbb;
     margin-bottom: 20px;
+}
+
+.H1{
+    color: #4689c3;
 }
 
 /* Стили для информации о создателях */
@@ -137,6 +170,8 @@ h1 {
 .creator {
     margin-bottom: 40px;
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 /* Стили для изображения создателя и его контейнера */
@@ -148,11 +183,14 @@ h1 {
 }
 
 .Creator-Image{
-    background-color: #f5f2f2;
-    padding: 5% 2%;
-    transform: scale(1);
-    transition: transform 0.2s, background-color 0.2s;
-    border-radius: 50px;
+    background-color: #f5f2f2; /* Фон контейнера */
+    padding: 20px; /* Внутренний отступ контейнера */
+    width: 900px; /* Фиксированная ширина карточки */
+    max-width: 100%; /* Устанавливаем максимальную ширину */
+    transform: scale(1); /* Начальный масштаб контейнера */
+    transition: transform 0.2s, background-color 0.2s; /* Плавный переход для трансформации и фона */
+    border-radius: 20px; /* Скругленные углы контейнера */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Тень контейнера */
 }
 
 .Creator-Image a{
@@ -163,7 +201,7 @@ h1 {
 
 /* Общие стили для текста внутри карточки */
 .Creator-Image *{
-    color: #bbbbbb;
+    color: #6da1ce;
 }
 
 /* Анимация при наведении на карточку */
@@ -171,6 +209,9 @@ h1 {
     transform: scale(1.1);
     background: linear-gradient(90deg, rgba(90, 185, 234, 1) 31.997138261795044%, rgba(81, 119, 214, 1) 74.8729407787323%);
     box-shadow: 1px 3px 20px -5px #00706b;
+}
+.Creator-Image:hover *{
+    color: #fff;
 }
 
 .Creator-forBack{
