@@ -11,6 +11,20 @@ body {
     'main'
     'footer';
     grid-template-rows: 100px minmax(calc(100% - 250px), auto) 150px;
+    position: relative;
+}
+body::before{
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    z-index: -1;
+    background: repeating-conic-gradient(
+        rgba(90, 185, 234, 1),
+        rgba(163, 139, 231, 1),
+        rgba(137, 166, 238, 1),
+        rgba(193, 200, 228, 1)
+      );
+    filter: blur(10px);
 }
 
 .main-container{
