@@ -25,11 +25,10 @@
                         <input type="number" id="size" name="size" min="1" required>
                         <button type="button" onclick="generateMatrix()">Создать матрицу смежности</button>
                         <div id="matrix-container" class="matrix-container"></div>
-                        <label for="pathX">От:</label>
-                        <input type="number" id="pathX" name="pathX" min="0" required>
-                        <label for="pathY">До:</label>
-                        <input type="number" id="pathY" name="pathY" min="0" required>
-                        <button type="submit" class="submit-button">Проверить путь</button>
+                        <label for="countEdges">Количество вершин</label>
+                        <input type="number" id="countEdges" name="countEdges" min="0" required>
+                        <button type="submit" class="submit-button">Проверить</button>
+                        <button type="submit" class="submit-button">Степени вершин</button>
                     </form>
                 </div>
             </div>
