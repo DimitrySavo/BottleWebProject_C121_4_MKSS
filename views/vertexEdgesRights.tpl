@@ -120,8 +120,8 @@
                 return;
             }
 
-            if (pathY > pathX){
-                alert("Указан неверный путь "+ pathX.toString() + " " + pathY.toString() + (pathY > pathX).valueOf());
+            if (pathX > pathY){
+                alert("Указан неверный путь ");
                 return;
             }
 

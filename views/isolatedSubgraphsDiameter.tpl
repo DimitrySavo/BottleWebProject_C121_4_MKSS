@@ -25,9 +25,9 @@
                         <input type="number" id="size" name="size" min="1" required>
                         <button type="button" onclick="generateMatrix()">Создать матрицу смежности</button>
                         <div id="matrix-container" class="matrix-container"></div>
-                        <button type="button" class="submit-button" onclick="countEdges()">Посчитать число ребер</button>
-                        <button type="button" onclick="countIsolatedSubgraphs()">Посчитать число изолированных подграфов</button>
-                        <button type="button" onclick="calculateDiameter()">Посчитать диаметр графа</button>
+                        <button type="button" class="submit-edgesCount">Посчитать число ребер</button>
+                        <button type="button" class="submit-countIsolatedSubgraphs">Посчитать число изолированных подграфов</button>
+                        <button type="button" class="submit-calculateDiameter">Посчитать диаметр графа</button>
                     </form>
                 </div>
             </div>
@@ -110,48 +110,30 @@
             correspondingCheckbox.checked = checkbox.checked;
         }
 
-        document.getElementById('matrix-form').addEventListener('submit', function(event) {
+        document.querySelector('.submit-edgesCount').addEventListener('click', handleEdgesCount);
+        document.querySelector('.submit-countIsolatedSubgraphs').addEventListener('click', handleCountIsolatedSubgraphs);
+        document.querySelector('.submit-calculateDiameter').addEventListener('click', handleCalculateDiameter);
+        
+        function handleEdgesCount(event) {
             event.preventDefault();
+            alert('Посчитать число ребер');
+            // Ваша логика для подсчета числа ребер
+        }
 
-            const size = parseInt(document.getElementById('size').value);
-            if (isNaN(size)) {
-                alert("Please enter a valid number for the size of the graph.");
-                return;
-            }
+        // Функция для обработки события "Посчитать число изолированных подграфов"
+        function handleCountIsolatedSubgraphs(event) {
+            event.preventDefault();
+            alert('Посчитать число изолированных подграфов');
+            // Ваша логика для подсчета числа изолированных подграфов
+        }
 
-            const edges = [];
-            for (let i = 0; i < size; i++) {
-                for (let j = 0; j < size; j++) {
-                    const checkbox = document.querySelector(`input[name="cell-${i}-${j}"]`);
-                    if (checkbox && checkbox.checked) {
-                        edges.push([i, j]);
-                    }
-                }
-            }
+        // Функция для обработки события "Посчитать диаметр графа"
+        function handleCalculateDiameter(event) {
+            event.preventDefault();
+            alert('Посчитать диаметр графа');
+            // Ваша логика для подсчета диаметра графа
+        }
 
-            fetch('/IsolatedSubgraphsDiameter', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ size, edges }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                //alert(`Graph created! Check the console for the adjacency matrix.\nIs Connected: ${data.is_connected}`);
-                console.log(data.matrix);
-                console.log(data.is_connected);
-                // Обновляем изображение графа
-                
-                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
-                document.getElementById('right-container').classList.replace('full-width', 'half-width');
-                document.getElementById('image-container').classList.remove('hidden');
-                document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        });
     </script>
 </body>
 <footer>

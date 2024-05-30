@@ -27,8 +27,8 @@
                         <div id="matrix-container" class="matrix-container"></div>
                         <label for="countEdges">Количество вершин</label>
                         <input type="number" id="countEdges" name="countEdges" min="0" required>
-                        <button type="submit" class="submit-button">Проверить</button>
-                        <button type="submit" class="submit-button">Степени вершин</button>
+                        <button type="button" class="submit-Check">Проверить</button>
+                        <button type="button" class="submit-Degree">Степени вершин</button>
                     </form>
                 </div>
             </div>
@@ -100,48 +100,21 @@
             correspondingCheckbox.checked = checkbox.checked;
         }
 
-        document.getElementById('matrix-form').addEventListener('submit', function(event) {
+        document.querySelector('.submit-Check').addEventListener('click', handleCheck);
+        document.querySelector('.submit-Degree').addEventListener('click', handleDegree);
+        
+        function handleCheck(event) {
             event.preventDefault();
+            alert('Посчитать число ребер');
+            // Ваша логика для подсчета числа ребер
+        }
 
-            const size = parseInt(document.getElementById('size').value);
-            if (isNaN(size)) {
-                alert("Please enter a valid number for the size of the graph.");
-                return;
-            }
-
-            const edges = [];
-            for (let i = 0; i < size; i++) {
-                for (let j = 0; j < size; j++) {
-                    const checkbox = document.querySelector(`input[name="cell-${i}-${j}"]`);
-                    if (checkbox && checkbox.checked) {
-                        edges.push([i, j]);
-                    }
-                }
-            }
-
-            fetch('/EdgesCount', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ size, edges }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                //alert(`Graph created! Check the console for the adjacency matrix.\nIs Connected: ${data.is_connected}`);
-                console.log(data.matrix);
-                console.log(data.is_connected);
-                // Обновляем изображение графа
-                
-                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
-                document.getElementById('right-container').classList.replace('full-width', 'half-width');
-                document.getElementById('image-container').classList.remove('hidden');
-                document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        });
+        // Функция для обработки события "Посчитать число изолированных подграфов"
+        function handleDegree(event) {
+            event.preventDefault();
+            alert('Посчитать число изолированных подграфов');
+            // Ваша логика для подсчета числа изолированных подграфов
+        }
     </script>
 </body>
 <footer>
