@@ -23,10 +23,10 @@ body {
     padding: 20px;
 }
 .left, .right {
-    background-color: #fff;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    background-color:rgb(142, 170, 222);
 }
 .full-width {
     width: 100%;
@@ -53,7 +53,10 @@ body {
     overflow: auto;
     border: 1px solid #ddd;
     padding: 10px;
-    background-color: #fafafa;
+}
+.matrix-container::before {
+    background-color: #007bff;
+    filter: blur(10px);
 }
 table {
     border-collapse: collapse;
@@ -99,9 +102,13 @@ button:hover {
 }
 .bottom {
     width: 100%;
-    background-color: #fff;
+    background-color:rgb(142, 170, 222);;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     margin-top: 20px;
+}
+
+label {
+    color: #bbbbbb;
 }
