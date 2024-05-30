@@ -6,6 +6,10 @@
     <title>Авторы</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
+<header>
+    {{ !header }}
+</header>
+
 <body >
     <div class="container">
         <h1 class="H1">Информация о создателях сайта</h1>
@@ -75,4 +79,8 @@
     </div>
     </div>
 </body>
+
+<footer>
+    {{ !footer }}
+</footer>
 </html>
