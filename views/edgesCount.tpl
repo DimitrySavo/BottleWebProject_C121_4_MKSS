@@ -13,7 +13,7 @@
     <div class="main-container">
         <div class="container-base-page">
             <div class="left zero-width" id="left-container">
-                <div class="image-container">
+                <div class="image-container hidden" id="image-container">
                     <img id="graph-image" alt="Graph Image">
                 </div>
             </div>
@@ -25,11 +25,16 @@
                         <input type="number" id="size" name="size" min="1" required>
                         <button type="button" onclick="generateMatrix()">Создать матрицу смежности</button>
                         <div id="matrix-container" class="matrix-container"></div>
-                        <button type="submit" class="submit-button">Отправить</button>
+                        <label for="pathX">От:</label>
+                        <input type="number" id="pathX" name="pathX" min="0" required>
+                        <label for="pathY">До:</label>
+                        <input type="number" id="pathY" name="pathY" min="0" required>
+                        <button type="submit" class="submit-button">Проверить путь</button>
                     </form>
                 </div>
             </div>
         </div>
+        <div class="line"></div>
         <div class="bottom">
             <h1>Что такое граф</h1>
             <p>Граф — математическая абстракция реальной системы любой природы, объекты которой обладают парными связями. Граф как математический объект есть совокупность двух множеств — множества самих объектов, называемого множеством вершин, и множества их парных связей, называемого множеством рёбер. Элемент множества рёбер есть пара элементов множества вершин. </p>
@@ -122,8 +127,9 @@
                 console.log(data.is_connected);
                 // Обновляем изображение графа
                 
-                document.getElementById('left-container').classList.replace('zero-width', 'half-width');
+                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
                 document.getElementById('right-container').classList.replace('full-width', 'half-width');
+                document.getElementById('image-container').classList.remove('hidden');
                 document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
             })
             .catch((error) => {
