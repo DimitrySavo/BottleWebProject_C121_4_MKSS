@@ -10,6 +10,8 @@ def create_graph():
     data = request.json #Получение данных с клиента
     size = data['size']
     edges = data['edges']
+    pathX = data['pathX']
+    pathY = data['pathY']
 
     G = nx.Graph()#Создание вспомогательного графа для вывода на экран
     corrected_edges = [(edge[0] + 1, edge[1] + 1) for edge in edges]
@@ -18,11 +20,11 @@ def create_graph():
 
 
     graph = MGraph(size)#Создание графа для математических подсчётов
-    graph.add_nodes_from(range(1, size))
-    graph.add_edges_from( [(edge[0], edge[1]) for edge in edges])
+    graph.add_nodesAndEdges(size,edges)
    
 
     is_connected = graph.is_connected()
+    is_path = graph.path(pathX - 1, pathY - 1)
 
     # Создание рисунка графа
     plt.figure(figsize=(5, 5))
@@ -40,4 +42,4 @@ def create_graph():
 
     response.content_type = 'application/json'
     #отправка ответа
-    return json.dumps({'is_connected': is_connected, 'matrix': matrix, 'image_base64': image_base64})
+    return json.dumps({'is_connected': is_connected, 'is_path': is_path, 'matrix': matrix, 'image_base64': image_base64})

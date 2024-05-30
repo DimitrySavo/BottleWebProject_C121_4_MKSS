@@ -140,13 +140,14 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ size, edges }),
+                body: JSON.stringify({ size, edges, pathX, pathY })
             })
             .then(response => response.json())
             .then(data => {
                 //alert(`Graph created! Check the console for the adjacency matrix.\nIs Connected: ${data.is_connected}`);
                 console.log(data.matrix);
                 console.log(data.is_connected);
+                console.log(data.is_path);
                 // Обновляем изображение графа
                 
                 document.getElementById('left-container').classList.replace('zero-width', 'half-width2');

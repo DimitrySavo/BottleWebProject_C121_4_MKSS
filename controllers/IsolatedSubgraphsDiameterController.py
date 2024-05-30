@@ -19,8 +19,7 @@ def create_graph():
 
 
     graph = MGraph(size)#Создание графа для математических подсчётов
-    graph.add_nodes_from(range(1, size))
-    graph.add_edges_from( [(edge[0], edge[1]) for edge in edges])
+    graph.add_nodesAndEdges(size,edges)
    
 
     is_connected = graph.is_connected()

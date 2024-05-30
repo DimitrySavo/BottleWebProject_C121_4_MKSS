@@ -22,6 +22,10 @@ class Graph:
         for v1, v2 in edges:
             self.add_edge(v1, v2)
 
+    def add_nodesAndEdges(self,nodes, edges):
+        self.add_nodes_from(range(1, nodes))
+        self.add_edges_from( [(edge[0], edge[1]) for edge in edges])
+
     # Getter method to retrieve nodes
     def get_nodes(self):
         return list(range(self.size))
