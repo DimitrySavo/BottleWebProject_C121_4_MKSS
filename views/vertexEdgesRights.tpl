@@ -13,7 +13,7 @@
     <div class="main-container">
         <div class="container-base-page">
             <div class="left zero-width" id="left-container">
-                <div class="image-container">
+                <div class="image-container hidden" id="image-container">
                     <img id="graph-image" alt="Graph Image">
                 </div>
             </div>
@@ -119,6 +119,7 @@
                 
                 document.getElementById('left-container').classList.replace('zero-width', 'half-width');
                 document.getElementById('right-container').classList.replace('full-width', 'half-width');
+                document.getElementById('image-container').classList.remove('hidden');
                 document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
             })
             .catch((error) => {

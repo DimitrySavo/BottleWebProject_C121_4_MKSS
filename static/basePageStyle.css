@@ -20,7 +20,7 @@ body {
 .container-base-page {
     display: flex;
     justify-content: center;
-    padding: 20px;
+    padding: 20px 0px;
 }
 .left, .right {
     background-color: #fff;
@@ -28,11 +28,21 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
+
+.left{
+    margin-right: 10px;
+    border-radius: 0px 10px 10px 0px;
+}
+.right{
+    margin-left: 10px;
+    border-radius: 10px 0px 0px 10px;
+}
+
 .full-width {
     width: 100%;
 }
 .half-width {
-    width: 48%;
+    width: 50%;
 }
 .zero-width{
     width: 10%;
