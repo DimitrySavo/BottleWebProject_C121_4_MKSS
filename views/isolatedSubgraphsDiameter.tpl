@@ -129,7 +129,7 @@
                 }
             }
 
-            fetch('/create_graph', {
+            fetch('/IsolatedSubgraphsDiameter', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

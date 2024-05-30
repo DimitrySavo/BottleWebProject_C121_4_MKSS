@@ -120,7 +120,7 @@
                 }
             }
 
-            fetch('/create_graph', {
+            fetch('/checkVertexEdgesRights', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

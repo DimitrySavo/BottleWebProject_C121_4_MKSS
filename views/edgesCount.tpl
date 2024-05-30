@@ -119,7 +119,7 @@
                 }
             }
 
-            fetch('/create_graph', {
+            fetch('/EdgesCount', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
