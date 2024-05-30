@@ -3,7 +3,7 @@
 # Quick start
 * Установить python 3.9 и выше
 * Клонировать репозиторий
-* С помощью установщика python подключить библиотеки networkX и matplotlib
+* С помощью установщика python подключить библиотеки networkX и matplotlib и bottle
 # Built With
 * https://bottlepy.org/docs/dev/ - Веб-фреймворк для python
 * https://networkx.org/ - Библиотека networkX для python
