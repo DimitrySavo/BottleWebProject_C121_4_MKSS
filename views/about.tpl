@@ -6,11 +6,11 @@
     <title>Авторы</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
-<header>
-    {{ !header }}
-</header>
 
-<body >
+<body class="body">
+    <header>
+        {{!header}}
+    </header>
     <div class="container">
         <h1 class="H1">Информация о создателях сайта</h1>
         <div style="display: flex; justify-content: center;">
@@ -78,9 +78,9 @@
         </div>
     </div>
     </div>
+    <footer>
+        {{!footer}}
+    </footer>
 </body>
 
-<footer>
-    {{ !footer }}
-</footer>
 </html>
