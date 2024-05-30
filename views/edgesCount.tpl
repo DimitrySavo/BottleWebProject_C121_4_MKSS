@@ -25,13 +25,29 @@
                         <input type="number" id="size" name="size" min="1" required>
                         <button type="button" onclick="generateMatrix()">Создать матрицу смежности</button>
                         <div id="matrix-container" class="matrix-container"></div>
-                        <button type="submit" class="submit-button">Отправить</button>
+                        <label for="pathX">От:</label>
+                        <input type="number" id="pathX" name="pathX" min="0" required>
+                        <label for="pathY">До:</label>
+                        <input type="number" id="pathY" name="pathY" min="0" required>
+                        <button type="submit" class="submit-button">Проверить путь</button>
                     </form>
                 </div>
             </div>
         </div>
+        <div class="line"></div>
         <div class="bottom">
-            <p>Текст.Текст.Текст.Текст.Текст.Текст.Текст.Текст.Текст.Текст.</p>
+            <h1>Граф</h1>
+            <p>Графом G(V,E) называется совокупность двух множеств – непустого множества V (вершин) и множества E (ребер) – двухэлементных подмножеств множества V</p>
+            <img src="/static/images/Graph.png"></img>
+            <h2>Неориентированный граф</h1>
+            <p>Граф, ни одному ребру которого не присвоено направление, называется неориентированным графом или неорграфом.</p>
+            <img src="/static/images/UnOrientedGraph.png"></img>
+            <p>В общем случае графы обоих типов могут содержать и петли. Петля в обоих случаях не имеет ориентации: это ребро, инцидентное только одной вершине. В определении таких графов следует опустить условие u не равно v.</p>
+            <p>Граф обычно изображается на плоскости в виде множества точек, соответствующих вершинам, и соединяющих их линий, соответствующих ребрам. Линия, изображающая ребро {u, v} или дугу (u, v), соединяет точки, изображающие вершины u, v, причем во втором случае стрелка обозначает направление от u к v:</p>
+            <h2>Путь в неориентированном графе</h1>
+            <p>Путь в графе — последовательность вершин, в которой каждая вершина соединена со следующей ребром. Из этого следует что проверить путь от X в Y значит пройтись по всем ребрам от X в Y и проверить существует ли между ними связь.</p>
+            <h2>Связный граф</h1>
+            <p>Граф называется связным, если для любых двух вершин существует путь, состоящий из рёбер, который соединяет эти вершины. В противном случае граф называется несвязным.</p>
         </div>
     </div>
 
@@ -117,7 +133,7 @@
                 console.log(data.is_connected);
                 // Обновляем изображение графа
                 
-                document.getElementById('left-container').classList.replace('zero-width', 'half-width');
+                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
                 document.getElementById('right-container').classList.replace('full-width', 'half-width');
                 document.getElementById('image-container').classList.remove('hidden');
                 document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;

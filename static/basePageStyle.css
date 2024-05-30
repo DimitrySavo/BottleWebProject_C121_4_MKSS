@@ -42,7 +42,10 @@ body {
     width: 100%;
 }
 .half-width {
-    width: 50%;
+    width: 70%;
+}
+.half-width2{
+    width: 30%;
 }
 .zero-width{
     width: 10%;
@@ -51,10 +54,11 @@ body {
     display: none;
 }
 .image-container img {
-    max-width: 50%;
-    max-height: 50%;
-    height: auto;
+    max-width: 100%;
+    max-height: 100%;
     border-radius: 10px;
+    object-fit: cover;
+
 }
 .matrix-container {
     margin-top: 20px;
@@ -65,7 +69,7 @@ body {
     padding: 10px;
 }
 .matrix-container::before {
-    background-color: #007bff;
+    background-color:rgb(142, 170, 222);
     filter: blur(10px);
 }
 table {
@@ -73,21 +77,27 @@ table {
     width: 100%;
 }
 th, td {
+    background-color:rgb(142, 170, 222);
+    color: #ffff;
+    font-size: 20px;
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
     min-width: 40px;
 }
+input[type="checkbox"] {
+   width: 20px;
+   height: 20px;
+}
 th {
-    background-color: #f9f9f9;
     position: sticky;
     top: 0; /* Фиксация заголовков таблицы сверху */
     z-index: 1;
 }
 .sticky-col {
+    background-color:rgb(142, 170, 222);
     position: sticky;
     left: 0; /* Фиксация первой колонки */
-    background-color: #f9f9f9;
     z-index: 2;
 }
 th.sticky-col {
@@ -97,12 +107,17 @@ input[type="number"] {
     width: 100px;
     padding: 5px;
     margin-right: 10px;
+    background-color:rgb(142, 170, 222); 
+    color: #ffff;
+    font-size: 30px;
+    border: 1px solid #ddd;
 }
 button {
     padding: 10px 15px;
     margin-top: 10px;
     background-color: #007bff;
     color: white;
+    font-size: 30px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
@@ -116,6 +131,7 @@ button:hover {
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: left;
+    
     margin: 10px 30px 10px 0px;
 }
 .line{
@@ -138,5 +154,20 @@ button:hover {
 }
 
 label {
-    color: #bbbbbb;
+    color: #ffff;
+    font-size: 30px;
+}
+
+.right h1{
+    color: #ffff;
+    font-size: 40px;
+}
+
+.right h2{
+    color: #ffff;
+    font-size: 30px;
+}
+.right p{
+    color: #ffff;
+    font-size: 30px;
 }

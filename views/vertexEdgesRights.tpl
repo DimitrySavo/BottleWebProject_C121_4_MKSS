@@ -25,7 +25,11 @@
                         <input type="number" id="size" name="size" min="1" required>
                         <button type="button" onclick="generateMatrix()">Создать матрицу смежности</button>
                         <div id="matrix-container" class="matrix-container"></div>
-                        <button type="submit" class="submit-button">Отправить</button>
+                        <label for="pathX">От:</label>
+                        <input type="number" id="pathX" name="pathX" min="0" required>
+                        <label for="pathY">До:</label>
+                        <input type="number" id="pathY" name="pathY" min="0" required>
+                        <button type="submit" class="submit-button">Проверить путь</button>
                     </form>
                 </div>
             </div>
@@ -129,7 +133,7 @@
                 console.log(data.is_connected);
                 // Обновляем изображение графа
                 
-                document.getElementById('left-container').classList.replace('zero-width', 'half-width');
+                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
                 document.getElementById('right-container').classList.replace('full-width', 'half-width');
                 document.getElementById('image-container').classList.remove('hidden');
                 document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
