@@ -31,7 +31,7 @@ def create_graph():
     is_connected = nx.is_connected(G)
 
     # Рисуем граф
-    plt.figure(figsize=(8, 8))
+    plt.figure(figsize=(5, 5))
     pos = nx.spring_layout(G)
     nx.draw(G, pos, with_labels=True, node_size=400, node_color='lightblue', font_size=10, font_color='black', font_weight='bold', edge_color='gray')
 
