@@ -17,7 +17,8 @@
     position: relative;
 }
 
-body::before{
+
+.body::before{
     content: '';
     position: absolute;
     left: 0; right: 0; top: 0; bottom: 0;
@@ -36,7 +37,7 @@ header, footer {
     background-color: #7473735f;
     color: white;
     text-align: center;
-    padding: 10px 0;
+    padding: 30px 0;
     height: 100%;
 }
 
@@ -55,6 +56,8 @@ header h1{
 }
 
 header a{
+    padding-top: 7px;
+    font-size: 20px;
     grid-column: 3;
     text-decoration: none;
     color: #fff;
@@ -169,7 +172,7 @@ h1 {
 }
 
 .H1{
-    color: #4689c3;
+    color: #ffffff;
 }
 
 /* Стили для информации о создателях */
@@ -193,8 +196,8 @@ h1 {
 
 /* Стили для изображения создателя и его контейнера */
 .creator img {
-    width: 200px;
-    height: 200px;
+    width: 20%;
+    height: auto;
     border-radius: 50%;
     margin-right: 20px;
 }
@@ -202,18 +205,22 @@ h1 {
 .Creator-Image{
     background-color: #f5f2f2; /* Фон контейнера */
     padding: 20px; /* Внутренний отступ контейнера */
-    width: 900px; /* Фиксированная ширина карточки */
-    max-width: 100%; /* Устанавливаем максимальную ширину */
+    height: 250px;
+    width: 100%; /* Фиксированная ширина карточки */
+    max-width: 900px; /* Устанавливаем максимальную ширину */
     transform: scale(1); /* Начальный масштаб контейнера */
     transition: transform 0.2s, background-color 0.2s; /* Плавный переход для трансформации и фона */
     border-radius: 20px; /* Скругленные углы контейнера */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Тень контейнера */
+    display: flex; /* Используем Flexbox для выравнивания */
+    align-items: center; /* Центрирование по вертикали */
 }
 
 .Creator-Image a{
     display: flex;
     flex-direction: row;
     align-items: center;
+    width: 100%; /* Задаем ширину 100% для ссылок, чтобы текст не вылезал */
 }
 
 /* Общие стили для текста внутри карточки */
