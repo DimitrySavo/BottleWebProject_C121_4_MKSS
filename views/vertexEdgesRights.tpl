@@ -26,9 +26,9 @@
                         <button type="button" onclick="generateMatrix()">Создать матрицу смежности</button>
                         <div id="matrix-container" class="matrix-container"></div>
                         <label for="pathX">От:</label>
-                        <input type="number" id="pathX" name="pathX" min="0" required>
+                        <input type="number" id="pathX" name="pathX" required>
                         <label for="pathY">До:</label>
-                        <input type="number" id="pathY" name="pathY" min="0" required>
+                        <input type="number" id="pathY" name="pathY" required>
                         <button type="submit" class="submit-button">Проверить путь</button>
                     </form>
                 </div>
@@ -105,8 +105,23 @@
             event.preventDefault();
 
             const size = parseInt(document.getElementById('size').value);
+            const pathX = parseInt(document.getElementById('pathX').value);
+            const pathY = parseInt(document.getElementById('pathY').value);
             if (isNaN(size)) {
                 alert("Please enter a valid number for the size of the graph.");
+                return;
+            }
+            if (isNaN(pathX)){
+                alert("Введите начало пути");
+                return;
+            }
+            if (isNaN(pathY)){
+                alert("Введите конец пути");
+                return;
+            }
+
+            if (pathY > pathX){
+                alert("Указан неверный путь "+ pathX.toString() + " " + pathY.toString() + (pathY > pathX).valueOf());
                 return;
             }
 
