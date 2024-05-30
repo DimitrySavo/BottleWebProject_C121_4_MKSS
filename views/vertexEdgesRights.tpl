@@ -12,12 +12,12 @@
 <body>
     <div class="main-container">
         <div class="container-base-page">
-            <div class="left">
+            <div class="left zero-width" id="left-container">
                 <div class="image-container">
                     <img id="graph-image" alt="Graph Image">
                 </div>
             </div>
-            <div class="right">
+            <div class="right full-width" id="right-container">
                 <div class="container-base-page">
                     <form id="matrix-form">
                         <h1>Введите граф через матрицу смежности</h1>
@@ -116,6 +116,9 @@
                 console.log(data.matrix);
                 console.log(data.is_connected);
                 // Обновляем изображение графа
+                
+                document.getElementById('left-container').classList.replace('zero-width', 'half-width');
+                document.getElementById('right-container').classList.replace('full-width', 'half-width');
                 document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
             })
             .catch((error) => {
