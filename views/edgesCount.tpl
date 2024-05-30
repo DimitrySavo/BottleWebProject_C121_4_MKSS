@@ -41,7 +41,14 @@
             <h1>Степень вершины</h1>
             <p>Степень вершины - это число рёбер, которые выходят из вершины графа. Если у каждой вершины графа одинаковые степени, то граф считается правильным.</p>
             <h1>Правильный и неправильный граф</h1>
-            <p class="right-image-text"><img src="/static/images/Dmitry.jpg"> Пример неправильного графа с разными степенями вершин.</p>
+            <div class="image-with-text">
+                <img src="/static/images/UnOrientedGraph.png">
+                <h2> Пример неправильного графа с разными степенями вершин.</h2>
+            </div>
+            <div class="image-with-text">
+                <img src="/static/images/RightUnOrientedGraph.png">
+                <h2> Пример правильного графа с одинаковыми степенями вершин.</h2>
+            </div>
         </div>
     </div>
 

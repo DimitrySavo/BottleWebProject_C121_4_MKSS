@@ -172,13 +172,18 @@ label {
     font-size: 30px;
 }
 
-.right-image-text{
-    float: left;
-    width: 100%;
-    height: auto;
+.image-with-text{
+    display: grid;
+    grid-template-columns: 200px 1fr;
 }
 
-.right-image-text img{
-    height: 100px;
-    width: 100px;
+.image-with-text img{
+    grid-column: 1;
+    height: 100%;
+    width: 100%;
+}
+
+.image-with-text h2{
+    grid-column: 2;
+    text-align: left;
 }
