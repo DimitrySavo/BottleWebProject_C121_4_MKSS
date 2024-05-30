@@ -3,33 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Graph Adjacency Matrix</title>
+    <link rel="stylesheet" href="/static/styles.css">
     <link rel="stylesheet" href="/static/basePageStyle.css">
 </head>
 <header>
     {{ !header }}
 </header>
 <body>
-    <div class="container">
-        <div class="left">
-            <div class="image-container">
-                <img id="graph-image" alt="Graph Image">
+    <div class="main-container">
+        <div class="container-base-page">
+            <div class="left zero-width" id="left-container">
+                <div class="image-container">
+                    <img id="graph-image" alt="Graph Image">
+                </div>
+            </div>
+            <div class="right full-width" id="right-container">
+                <div class="container-base-page">
+                    <form id="matrix-form">
+                        <h1>Введите граф через матрицу смежности</h1>
+                        <label for="size">Размер графа:</label>
+                        <input type="number" id="size" name="size" min="1" required>
+                        <button type="button" onclick="generateMatrix()">Создать матрицу смежности</button>
+                        <div id="matrix-container" class="matrix-container"></div>
+                        <button type="submit" class="submit-button">Отправить</button>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="right">
-            <div class="container">
-                <form id="matrix-form">
-                    <h1>Введите граф через матрицу смежности</h1>
-                    <label for="size">Размер графа:</label>
-                    <input type="number" id="size" name="size" min="1" required>
-                    <button type="button" onclick="generateMatrix()">Создать матрицу смежности</button>
-                    <div id="matrix-container" class="matrix-container"></div>
-                    <button type="submit" class="submit-button">Отправить</button>
-                </form>
-            </div>
+        <div class="bottom">
+            <p>Текст.Текст.Текст.Текст.Текст.Текст.Текст.Текст.Текст.Текст.</p>
         </div>
-    </div>
-    <div class="bottom">
-        <p>Текст.Текст.Текст.Текст.Текст.Текст.Текст.Текст.Текст.Текст.</p>
     </div>
 
     <script>
@@ -113,6 +116,9 @@
                 console.log(data.matrix);
                 console.log(data.is_connected);
                 // Обновляем изображение графа
+                
+                document.getElementById('left-container').classList.replace('zero-width', 'half-width');
+                document.getElementById('right-container').classList.replace('full-width', 'half-width');
                 document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
             })
             .catch((error) => {

@@ -33,7 +33,7 @@ def create_graph():
     # Рисуем граф
     plt.figure(figsize=(8, 8))
     pos = nx.spring_layout(G)
-    nx.draw(G, pos, with_labels=True, node_size=700, node_color='lightblue', font_size=10, font_color='black', font_weight='bold', edge_color='gray')
+    nx.draw(G, pos, with_labels=True, node_size=500, node_color='lightblue', font_size=10, font_color='black', font_weight='bold', edge_color='gray')
 
     buf = io.BytesIO()
     plt.savefig(buf, format='png')

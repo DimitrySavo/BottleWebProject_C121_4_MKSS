@@ -19,23 +19,30 @@ body {
 
 .container-base-page {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     padding: 20px;
 }
-.left{
-    width: 48%;
+.left, .right {
     background-color: #fff;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
-.right{
+.full-width {
+    width: 100%;
+}
+.half-width {
     width: 48%;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.zero-width{
+    width: 10%;
+}
+.hidden {
+    display: none;
 }
 .image-container img {
-    max-width: 100%;
+    max-width: 50%;
+    max-height: 50%;
     height: auto;
     border-radius: 10px;
 }
