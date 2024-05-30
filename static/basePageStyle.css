@@ -105,3 +105,14 @@ button:hover {
     text-align: center;
     margin-top: 20px;
 }
+
+.right-image-text{
+    float: left;
+    width: 100%;
+    height: auto;
+}
+
+.right-image-text img{
+    height: 100px;
+    width: 100px;
+}
