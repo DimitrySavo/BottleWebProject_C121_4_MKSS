@@ -19,7 +19,7 @@ def isolatedSubgraphsDiameter():
     return template('isolatedSubgraphsDiameter', header = template('header.tpl'), footer = template('footer.tpl'))
 
 def about():
-    return template('about')
+    return template('about', header = template('header.tpl'), footer = template('footer.tpl'))
 
 # Маршрут для статических файлов (CSS)
 def server_static(filepath):
