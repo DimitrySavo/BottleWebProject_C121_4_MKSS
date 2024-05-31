@@ -44,16 +44,17 @@ def create_graph():
 
 def edges_count():
     data = request.json
-    size = data['size']
-    matrix = data['matrix']
+    size1 = data['size']
+    matrix1= data['matrix']
+    size2 = data['size']
+    matrix2 = data['matrix']
     
-    graph = MGraph(size)
-    for i in range(size):
-        for j in range(size):
-            if matrix[i][j] == 1:
-                graph.add_edge(i, j)
+    graph1 = MGraph(size1)
+    graph2 = MGraph(size2)
+    graph1.add_nodesAndEdges(size1, matrix1)
+    graph2.add_nodesAndEdges(size2, matrix2)
                 
-    edges_count = graph.count_edges()
+    edges_count = graph1.count_edges() + graph2.count_edges()
     response.content_type = 'application/json'
     return json.dumps({'edgesCount': edges_count})
 
@@ -63,10 +64,7 @@ def isolated_subgraphs_count():
     matrix = data['matrix']
     
     graph = MGraph(size)
-    for i in range(size):
-        for j in range(size):
-            if matrix[i][j] == 1:
-                graph.add_edge(i, j)
+    graph.add_nodesAndEdges(size, matrix)
                 
     isolated_subgraphs_count = graph.count_isolated_subgraphs()
     response.content_type = 'application/json'
@@ -78,10 +76,7 @@ def calculate_diameter():
     matrix = data['matrix']
     
     graph = MGraph(size)
-    for i in range(size):
-        for j in range(size):
-            if matrix[i][j] == 1:
-                graph.add_edge(i, j)
+    graph.add_nodesAndEdges(size, matrix)
                 
     diameter = graph.diameter()
     response.content_type = 'application/json'
