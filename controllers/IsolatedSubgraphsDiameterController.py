@@ -16,13 +16,7 @@ def create_graph():
     corrected_edges = [(edge[0] + 1, edge[1] + 1) for edge in edges]
     G.add_nodes_from(range(1, size + 1))
     G.add_edges_from(corrected_edges)
-
-
-    graph = MGraph(size)#Создание графа для математических подсчётов
-    graph.add_nodesAndEdges(size,edges)
    
-
-    is_connected = graph.is_connected()
 
     # Создание рисунка графа
     plt.figure(figsize=(5, 5))
@@ -36,11 +30,9 @@ def create_graph():
     buf.close()
     plt.close()
 
-    matrix = nx.to_numpy_array(G).tolist()
-
     response.content_type = 'application/json'
     #отправка ответа
-    return json.dumps({'is_connected': is_connected, 'matrix': matrix, 'image_base64': image_base64})
+    return json.dumps({'image_base64': image_base64})
 
 def edges_count():
     data = request.json
@@ -60,13 +52,10 @@ def edges_count():
 def isolated_subgraphs_count():
     data = request.json
     size = data['size']
-    matrix = data['matrix']
+    edges = data['edges']
     
     graph = MGraph(size)
-    for i in range(size):
-        for j in range(size):
-            if matrix[i][j] == 1:
-                graph.add_edge(i, j)
+    graph.add_nodesAndEdges(size, edges)
                 
     isolated_subgraphs_count = graph.count_isolated_subgraphs()
     response.content_type = 'application/json'
@@ -75,13 +64,10 @@ def isolated_subgraphs_count():
 def calculate_diameter():
     data = request.json
     size = data['size']
-    matrix = data['matrix']
+    edges = data['edges']
     
     graph = MGraph(size)
-    for i in range(size):
-        for j in range(size):
-            if matrix[i][j] == 1:
-                graph.add_edge(i, j)
+    graph.add_nodesAndEdges(size, edges)
                 
     diameter = graph.diameter()
     response.content_type = 'application/json'

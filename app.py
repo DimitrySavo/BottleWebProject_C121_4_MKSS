@@ -19,6 +19,7 @@ app.post('/IsolatedSubgraphsDiameter')(IsolatedSubgraphsDiameterController.creat
 app.post('/EdgesCount')(IsolatedSubgraphsDiameterController.edges_count)
 app.post('/IsolatedSubgraphsCount')(IsolatedSubgraphsDiameterController.isolated_subgraphs_count)
 app.post('/CalculateDiameter')(IsolatedSubgraphsDiameterController.calculate_diameter)
+app.post('/CreateGraph')(IsolatedSubgraphsDiameterController.create_graph)
 
 if __name__ == "__main__":
     app.run()
