@@ -132,3 +132,31 @@ class Graph:
             max_distance = max(max_distance, max(distances))
 
         return max_distance
+    
+    def union(self, other):
+        if self.size != other.size:
+            raise ValueError("Graphs must be of the same size to perform union")
+        new_graph = Graph(self.size)
+        for i in range(self.size):
+            for j in range(self.size):
+                if self.matrix[i][j] == 1 or other.matrix[i][j] == 1:
+                    new_graph.matrix[i][j] = 1
+        return new_graph
+
+    def intersection(self, other):
+        if self.size != other.size:
+            raise ValueError("Graphs must be of the same size to perform intersection")
+        new_graph = Graph(self.size)
+        for i in range(self.size):
+            for j in range(self.size):
+                if self.matrix[i][j] == 1 and other.matrix[i][j] == 1:
+                    new_graph.matrix[i][j] = 1
+        return new_graph
+
+    def complement(self):
+        new_graph = Graph(self.size)
+        for i in range(self.size):
+            for j in range(self.size):
+                if i != j and self.matrix[i][j] == 0:
+                    new_graph.matrix[i][j] = 1
+        return new_graph

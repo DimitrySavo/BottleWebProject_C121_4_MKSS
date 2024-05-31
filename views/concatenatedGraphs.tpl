@@ -12,28 +12,44 @@
 <body>
     <div class="main-container">
         <div class="container-base-page">
-            <div class="left zero-width" id="left-container">
+            <div class="left half-width" id="left-container">
                 <div class="image-container hidden" id="image-container">
                     <img id="graph-image" alt="Graph Image">
                 </div>
             </div>
-            <div class="right full-width" id="right-container">
-                <div class="container-base-page">
-                    <form id="matrix-form">
-                        <h1>Введите граф через матрицу смежности</h1>
-                        <label for="size">Размер графа:</label>
-                        <input type="number" id="size" name="size" min="1" required>
-                        <button type="button" onclick="generateMatrix()">Создать матрицу смежности</button>
-                        <div id="matrix-container" class="matrix-container"></div>
-                        <label for="pathX">От:</label>
-                        <input type="number" id="pathX" name="pathX" min="0" required>
-                        <label for="pathY">До:</label>
-                        <input type="number" id="pathY" name="pathY" min="0" required>
-                        <button type="submit" class="submit-button">Проверить путь</button>
-                    </form>
+
+            <div>
+                <div class="right full-width" id="right-container">
+                    <div class="container-base-page">
+                        <form id="matrix-form">
+                            <h1>Создать матрицу</h1>
+                            <label class="margined-button" for="size">Размер графа:</label>
+                            <input type="number" id="size" name="size" min="1" required>
+                            <button type="button" onclick="generateMatrix()">Создать</button>
+                            <div id="matrix-container" class="matrix-container"></div>
+                        </form>
+                    </div>
                 </div>
+
+                    <div class="right full-width" id="right-container">
+                        <div class="container-base-page">
+                            <form id="matrix-form">
+                                <h1>Создать матрицу</h1>
+                                <label  class="margined-button" for="size">Размер графа:</label>
+                                <input type="number" id="size" name="size" min="1" required>
+                                <button type="button" onclick="generateMatrix()">Создать</button>
+                                <div id="matrix-container" class="matrix-container"></div>
+                            </form>
+                        </div>
+                        <div class="container-base-page">
+                            <button type="button">Объединение</button>
+                            <button class="margined-button" type="button">Пересечение</button>
+                            <button class="margined-button" type="button">Дополнение</button>
+                        </div>  
+                    </div>
             </div>
         </div>
+    </div>
         <div class="line"></div>
         <div class="bottom">
             <h1>Граф</h1>
