@@ -1,0 +1,225 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    color: #333;
+    min-height: 100vh;
+    display: grid;
+    grid-template-areas: 
+    'header'
+    'main'
+    'footer';
+    grid-template-rows: 100px minmax(calc(100% - 250px), auto) 150px;
+    position: relative;
+}
+body::before{
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    z-index: -1;
+    background: repeating-conic-gradient(
+        rgba(90, 185, 234, 1),
+        rgba(163, 139, 231, 1),
+        rgba(137, 166, 238, 1),
+        rgba(193, 200, 228, 1)
+      );
+    filter: blur(10px);
+}
+
+.main-container{
+    grid-area: main;
+}
+
+.container-base-page {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0px;
+}
+.left, .right {
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    background-color:rgb(142, 170, 222);
+}
+
+.left{
+    margin-right: 10px;
+    border-radius: 0px 10px 10px 0px;
+}
+.right{
+    margin-left: 10px;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.full-width {
+    width: 100%;
+}
+.half-width {
+    width: 70%;
+}
+.half-width2{
+    width: 30%;
+}
+.zero-width{
+    width: 10%;
+}
+.hidden {
+    display: none;
+}
+.image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+
+}
+.matrix-container {
+    margin-top: 20px;
+    max-height: 40vh;
+    max-width: 40vw;
+    overflow: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+.matrix-container::before {
+    background-color:rgb(142, 170, 222);
+    filter: blur(10px);
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    background-color:rgb(142, 170, 222);
+    color: #ffff;
+    font-size: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    min-width: 40px;
+}
+input[type="checkbox"] {
+   width: 20px;
+   height: 20px;
+}
+th {
+    position: sticky;
+    top: 0; /* Фиксация заголовков таблицы сверху */
+    z-index: 1;
+}
+.sticky-col {
+    background-color:rgb(142, 170, 222);
+    position: sticky;
+    left: 0; /* Фиксация первой колонки */
+    z-index: 2;
+}
+th.sticky-col {
+    z-index: 3;
+}
+input[type="number"] {
+    width: 100px;
+    padding: 5px;
+    margin-right: 10px;
+    background-color:rgb(142, 170, 222); 
+    color: #ffff;
+    font-size: 30px;
+    border: 1px solid #ddd;
+}
+button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    font-size: 30px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.bottom {
+    width: 100%;
+    background-color:rgb(142, 170, 222);;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    
+    margin: 10px 30px 10px 0px;
+}
+.line{
+    height: 1px;
+    background: #333;
+    margin-bottom: 10px;
+}
+
+.bottom h1{
+    color: #ffff;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-decoration: solid;
+    font-size: 40px;
+}
+
+.bottom h2{
+    color: #ffff;
+    text-align: left;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.bottom p{
+    color: #ffff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-bottom: 20px;
+    font-weight: 500;
+    text-align: left;
+}
+
+label {
+    color: #ffff;
+    font-size: 30px;
+}
+
+.right h1{
+    color: #ffff;
+    font-size: 40px;
+}
+
+.right h2{
+    color: #ffff;
+    font-size: 30px;
+}
+.right p{
+    color: #ffff;
+    font-size: 30px;
+}
+
+.image-with-text{
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    justify-items: center;
+}
+
+.image-with-text img{
+    grid-column: 1;
+    height: 100%;
+    width: 100%;
+}
+
+.image-with-text h2{
+    grid-column: 2;
+    text-align: left;
+}
+
+.image-with-text p{
+    grid-column: 2;
+    text-align: left;
+    justify-self: center;
+}

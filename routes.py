@@ -2,25 +2,28 @@ from bottle import Bottle, run, request, static_file, template, response, route
 import json
 
 def index():
-    return template('index')
+    return template('index', header = template('header.tpl'), footer = template('footer.tpl'))
 
 # Страницы для перехода
-def page1():
-    return '<h1>Page 1</h1><p>This is the content of page 1.</p>'
+def concatenatedGraphs():
+    return template('concatenatedGraphs', header = template('header.tpl'), footer = template('footer.tpl'))
 
-def page2():
-    return '<h1>Page 2</h1><p>This is the content of page 2.</p>'
+def edgesCount():
+    return template('edgesCount', header = template('header.tpl'), footer = template('footer.tpl'))
 
-def page3():
-    return '<h1>Page 3</h1><p>This is the content of page 3.</p>'
+def vertexEdgesRights():
+    return template('vertexEdgesRights', header = template('header.tpl'), footer = template('footer.tpl'))
 
 
-def page4():
-    return '<h1>Page 4</h1><p>This is the content of page 4.</p>'
+def isolatedSubgraphsDiameter():
+    return template('isolatedSubgraphsDiameter', header = template('header.tpl'), footer = template('footer.tpl'))
 
 def about():
-    return template('about')
+    return template('about', header = template('header.tpl'), footer = template('footer.tpl'))
 
 # Маршрут для статических файлов (CSS)
 def server_static(filepath):
     return static_file(filepath, root='./static')
+
+def server_scripts(filepath):
+    return static_file(filepath, root='./scripts')
