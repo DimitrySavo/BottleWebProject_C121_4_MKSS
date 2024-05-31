@@ -58,7 +58,7 @@ class Graph:
 
     def dfs(self, current, end, visited):
         if current == end:
-            return True
+            if self.matrix[current][end] == 1: return True    
         visited[current] = True
         for neighbor in range(self.size):
             if self.matrix[current][neighbor] == 1 and not visited[neighbor]:
