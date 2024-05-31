@@ -3,6 +3,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import io
 import base64
+import models.Graph as MGraph
 from routes import *
 
 app = Bottle()
@@ -29,7 +30,7 @@ def create_graph():
     G.add_edges_from(corrected_edges)
 
     is_connected = nx.is_connected(G)
-
+    
     # Рисуем граф
     plt.figure(figsize=(8, 8))
     pos = nx.spring_layout(G)
