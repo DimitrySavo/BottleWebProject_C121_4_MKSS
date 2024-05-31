@@ -24,3 +24,6 @@ def about():
 # Маршрут для статических файлов (CSS)
 def server_static(filepath):
     return static_file(filepath, root='./static')
+
+def server_scripts(filepath):
+    return static_file(filepath, root='./scripts')

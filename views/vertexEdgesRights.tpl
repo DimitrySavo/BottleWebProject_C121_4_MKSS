@@ -26,9 +26,9 @@
                         <button type="button" onclick="generateMatrix()">Создать матрицу смежности</button>
                         <div id="matrix-container" class="matrix-container"></div>
                         <label for="pathX">От:</label>
-                        <input type="number" id="pathX" name="pathX" min="0" required>
+                        <input type="number" id="pathX" name="pathX" required>
                         <label for="pathY">До:</label>
-                        <input type="number" id="pathY" name="pathY" min="0" required>
+                        <input type="number" id="pathY" name="pathY" required>
                         <button type="submit" class="submit-button">Проверить путь</button>
                     </form>
                 </div>
@@ -41,9 +41,10 @@
             <img src="/static/images/Graph.png"></img>
             <h2>Неориентированный граф</h1>
             <p>Граф, ни одному ребру которого не присвоено направление, называется неориентированным графом или неорграфом.</p>
-            <img src="/static/images/UnOrientedGraph.png"></img>
-            <p>В общем случае графы обоих типов могут содержать и петли. Петля в обоих случаях не имеет ориентации: это ребро, инцидентное только одной вершине. В определении таких графов следует опустить условие u не равно v.</p>
-            <p>Граф обычно изображается на плоскости в виде множества точек, соответствующих вершинам, и соединяющих их линий, соответствующих ребрам. Линия, изображающая ребро {u, v} или дугу (u, v), соединяет точки, изображающие вершины u, v, причем во втором случае стрелка обозначает направление от u к v:</p>
+            <div class="image-with-text">
+                <img src="/static/images/UnOrientedGraph.png"></img>
+                <p>В общем случае графы обоих типов могут содержать и петли. Петля в обоих случаях не имеет ориентации: это ребро, инцидентное только одной вершине. В определении таких графов следует опустить условие u не равно v. Граф обычно изображается на плоскости в виде множества точек, соответствующих вершинам, и соединяющих их линий, соответствующих ребрам. Линия, изображающая ребро {u, v} или дугу (u, v), соединяет точки, изображающие вершины u, v, причем во втором случае стрелка обозначает направление от u к v:</p>
+            </div>
             <h2>Путь в неориентированном графе</h1>
             <p>Путь в графе — последовательность вершин, в которой каждая вершина соединена со следующей ребром. Из этого следует что проверить путь от X в Y значит пройтись по всем ребрам от X в Y и проверить существует ли между ними связь.</p>
             <h2>Связный граф</h1>
@@ -104,8 +105,23 @@
             event.preventDefault();
 
             const size = parseInt(document.getElementById('size').value);
+            const pathX = parseInt(document.getElementById('pathX').value);
+            const pathY = parseInt(document.getElementById('pathY').value);
             if (isNaN(size)) {
                 alert("Please enter a valid number for the size of the graph.");
+                return;
+            }
+            if (isNaN(pathX)){
+                alert("Введите начало пути");
+                return;
+            }
+            if (isNaN(pathY)){
+                alert("Введите конец пути");
+                return;
+            }
+
+            if (pathX > pathY){
+                alert("Указан неверный путь ");
                 return;
             }
 
@@ -119,18 +135,19 @@
                 }
             }
 
-            fetch('/create_graph', {
+            fetch('/checkVertexEdgesRights', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ size, edges }),
+                body: JSON.stringify({ size, edges, pathX, pathY })
             })
             .then(response => response.json())
             .then(data => {
                 //alert(`Graph created! Check the console for the adjacency matrix.\nIs Connected: ${data.is_connected}`);
                 console.log(data.matrix);
                 console.log(data.is_connected);
+                console.log(data.is_path);
                 // Обновляем изображение графа
                 
                 document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
