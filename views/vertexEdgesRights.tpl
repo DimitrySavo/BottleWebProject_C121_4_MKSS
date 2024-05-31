@@ -150,7 +150,7 @@
                 document.getElementById('ResultLinked').classList.remove('hidden');
                 document.getElementById('ResultPath').classList.remove('hidden');
                 document.getElementById('ResultPath').textContent = `Результат: ${data.is_path? "Путь существует":"Путь не существует"}`
-                document.getElementById('ResultLinked').textContent = `Граф ${data.is_connected? "Связный":"Не связный"}`
+                document.getElementById('ResultLinked').textContent = `Граф ${data.is_connected? "связный":"не связный"}`
             })
             .catch((error) => {
                 console.error('Error:', error);
