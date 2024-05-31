@@ -18,12 +18,12 @@
                 </div>
             </div>
             <div class="right full-width" id="right-container">
-                <div class="container-base-page">
+                <div class="container-base-page right-container-with-answers">
                     <form id="matrix-form">
                         <h1>Введите граф через матрицу смежности</h1>
                         <label for="size">Размер графа:</label>
                         <input type="number" id="size" name="size" min="1" required>
-                        <button type="button" onclick="generateMatrix()">Создать матрицу смежности</button>
+                        <button type="button" onclick="generateMatrixOnPage('matrix-container')">Создать матрицу смежности</button>
                         <div id="matrix-container" class="matrix-container"></div>
                         <label for="pathX">От:</label>
                         <input type="number" id="pathX" name="pathX" required>
@@ -31,6 +31,8 @@
                         <input type="number" id="pathY" name="pathY" required>
                         <button type="submit" class="submit-button">Проверить путь</button>
                     </form>
+                    <span id="ResultPath" class="hidden"></span>
+                    <span id="ResultLinked" class="hidden"></span>
                 </div>
             </div>
         </div>
@@ -51,53 +53,23 @@
             <p>Граф называется связным, если для любых двух вершин существует путь, состоящий из рёбер, который соединяет эти вершины. В противном случае граф называется несвязным.</p>
         </div>
     </div>
-
+    <script src="/scripts/generateMatrixFun.js"></script>
     <script>
-        function generateMatrix() {
-            const size = parseInt(document.getElementById('size').value);
-            if (isNaN(size)) {
-                alert("Please enter a valid number for the size of the graph.");
-                return;
-            }
-            const container = document.getElementById('matrix-container');
+        function generateMatrixOnPage(id) {
+            const container = document.getElementById(id);
             container.innerHTML = '';
-
-            const table = document.createElement('table');
-            table.style.minWidth = (size + 1) * 50 + 'px'; // Установка минимальной ширины таблицы
-            for (let i = 0; i <= size; i++) {
-                const row = document.createElement('tr');
-                for (let j = 0; j <= size; j++) {
-                    const cell = document.createElement(i === 0 || j === 0 ? 'th' : 'td');
-                    if (i === 0 && j > 0) {
-                        cell.innerText = j;
-                        cell.classList.add('sticky-header');
-                    } else if (j === 0 && i > 0) {
-                        cell.innerText = i;
-                        cell.classList.add('sticky-col');
-                    } else if (i > 0 && j > 0) {
-                        const input = document.createElement('input');
-                        input.type = 'checkbox';
-                        input.name = `cell-${i-1}-${j-1}`;
-                        input.dataset.row = i - 1;
-                        input.dataset.col = j - 1;
-                        input.addEventListener('change', handleCheckboxChange);
-                        cell.appendChild(input);
-                    }
-                    if (i === 0 || j === 0) {
-                        cell.classList.add('sticky-col');
-                    }
-                    row.appendChild(cell);
-                }
-                table.appendChild(row);
-            }
-            container.appendChild(table);
+            const size = parseInt(document.getElementById('size').value);
+            container.appendChild(generateMatrix(size, id));
         }
 
         function handleCheckboxChange(event) {
             const checkbox = event.target;
             const row = parseInt(checkbox.dataset.row);
             const col = parseInt(checkbox.dataset.col);
-            const correspondingCheckbox = document.querySelector(`input[name="cell-${col}-${row}"]`);
+            let name = checkbox.name.split('-');
+            name[name.length - 2] = col;
+            name[name.length - 1] = row;
+            const correspondingCheckbox = document.querySelector(`input[name="${name.toString().replace(/,/g, '-')}"]`);
             correspondingCheckbox.checked = checkbox.checked;
         }
 
@@ -105,6 +77,7 @@
             event.preventDefault();
 
             const size = parseInt(document.getElementById('size').value);
+            console.log(size)
             const pathX = parseInt(document.getElementById('pathX').value);
             const pathY = parseInt(document.getElementById('pathY').value);
             if (isNaN(size)) {
@@ -126,10 +99,17 @@
             }
 
             const edges = [];
+            console.log(edges);
             for (let i = 0; i < size; i++) {
+                console.log("i");
+                console.log(i);
                 for (let j = 0; j < size; j++) {
-                    const checkbox = document.querySelector(`input[name="cell-${i}-${j}"]`);
+                    console.log("j");
+                    console.log(j)
+                    const checkbox = document.querySelector(`input[name="matrix-container-cell-${i}-${j}"]`);
+                    console.log(checkbox.name);
                     if (checkbox && checkbox.checked) {
+                        console.log("Нажат");
                         edges.push([i, j]);
                     }
                 }
@@ -153,6 +133,10 @@
                 document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
                 document.getElementById('right-container').classList.replace('full-width', 'half-width');
                 document.getElementById('image-container').classList.remove('hidden');
+                document.getElementById('ResultLinked').classList.remove('hidden');
+                document.getElementById('ResultPath').classList.remove('hidden');
+                document.getElementById('ResultPath').textContent = `Результат: ${data.is_path? "Путь существует":"Путь не существует"}`
+                document.getElementById('ResultLinked').textContent = `Граф ${data.is_connected? "Связный":"Не связный"}`
                 document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
             })
             .catch((error) => {

@@ -22,7 +22,7 @@
                     <form id="matrix-form">
                         <h1>Введите граф через матрицу смежности</h1>
                         <label for="size">Размер графа:</label>
-                        <input type="number" id="size" name="size" min="1" required>
+                        <input type="number" id="size1" name="size1" min="1" required>
                         <button type="button" onclick="generateMatrixOnPage('matrix-container')">Создать матрицу смежности</button>
                         <div id="matrix-container" class="matrix-container"></div>
                         <button type="button" class="submit-edgesCount">Посчитать число ребер</button>
@@ -32,7 +32,7 @@
                     <form id="matrix-form2">
                         <h1>Введите граф через матрицу смежности</h1>
                         <label for="size">Размер графа:</label>
-                        <input type="number" id="size" name="size" min="1" required>
+                        <input type="number" id="size2" name="size2" min="1" required>
                         <button type="button" onclick="generateMatrixOnPage('matrix-container2')">Создать матрицу смежности</button>
                         <div id="matrix-container2" class="matrix-container"></div>
                     </form>
@@ -95,7 +95,59 @@
         function handleEdgesCount(event) {
             event.preventDefault();
             alert('Посчитать число ребер');
-            // Ваша логика для подсчета числа ребер
+
+            const size1 = parseInt(document.getElementById('size1').value);
+            const size2 = parseInt(document.getElementById('size2').value);
+            console.log(size)
+
+            if (isNaN(size)) {
+                alert("Please enter a valid number for the size of the graph.");
+                return;
+            }
+
+            const edges1 = [];
+            for (let i = 0; i < size1; i++) {
+                for (let j = 0; j < size1; j++) {
+                    const checkbox = document.querySelector(`input[name="matrix-container-cell-${i}-${j}"]`);
+                    if (checkbox && checkbox.checked) {
+                        edges.push([i, j]);
+                    }
+                }
+            }
+
+            const edges2 = [];
+            for (let i = 0; i < size2; i++) {
+                for (let j = 0; j < size2; j++) {
+                    const checkbox = document.querySelector(`input[name="matrix-container2-cell-${i}-${j}"]`);
+                    if (checkbox && checkbox.checked) {
+                        edges.push([i, j]);
+                    }
+                }
+            }
+
+            fetch('/checkVertexEdgesRights', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ size1, size2, edges1, edges2})
+            })
+            .then(response => response.json())
+            .then(data => {
+                //alert(`Graph created! Check the console for the adjacency matrix.\nIs Connected: ${data.is_connected}`);
+                console.log(data.matrix);
+                console.log(data.is_connected);
+                console.log(data.is_path);
+                // Обновляем изображение графа
+                
+                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
+                document.getElementById('right-container').classList.replace('full-width', 'half-width');
+                document.getElementById('image-container').classList.remove('hidden');
+                document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
         }
 
         // Функция для обработки события "Посчитать число изолированных подграфов"
