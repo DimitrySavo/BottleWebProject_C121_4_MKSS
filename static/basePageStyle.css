@@ -225,3 +225,16 @@ label {
     text-align: left;
     justify-self: center;
 }
+
+.right-container-with-answers{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+}
+
+.right-container-with-answers span{
+    font-size: 24px;
+    color: #fff;
+    margin: 10px;
+}

@@ -126,7 +126,7 @@
                 }
             }
 
-            fetch('/create_graph', {
+            fetch('/checkConcatenatedGraphs', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -7,6 +7,38 @@ class Graph:
         self.matrix[v1][v2] = 1
         self.matrix[v2][v1] = 1
 
+    # New method to add nodes from a list
+    def add_nodes_from(self, nodes):
+        new_size = max(nodes) + 1
+        if new_size > self.size:
+            for row in self.matrix:
+                row.extend([0] * (new_size - self.size))
+            for _ in range(new_size - self.size):
+                self.matrix.append([0] * new_size)
+            self.size = new_size
+
+    # New method to add edges from a list
+    def add_edges_from(self, edges):
+        for v1, v2 in edges:
+            self.add_edge(v1, v2)
+
+    def add_nodesAndEdges(self,nodes, edges):
+        self.add_nodes_from(range(1, nodes))
+        self.add_edges_from( [(edge[0], edge[1]) for edge in edges])
+
+    # Getter method to retrieve nodes
+    def get_nodes(self):
+        return list(range(self.size))
+
+    # Getter method to retrieve edges
+    def get_edges(self):
+        edges = []
+        for i in range(self.size):
+            for j in range(i + 1, self.size):
+                if self.matrix[i][j] == 1:
+                    edges.append((i, j))
+        return edges
+
     def to_dict(self):
         return {
             "size": self.size,

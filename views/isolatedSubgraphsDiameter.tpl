@@ -22,12 +22,19 @@
                     <form id="matrix-form">
                         <h1>Введите граф через матрицу смежности</h1>
                         <label for="size">Размер графа:</label>
-                        <input type="number" id="size" name="size" min="1" required>
-                        <button type="button" onclick="generateMatrix()">Создать матрицу смежности</button>
+                        <input type="number" id="size1" name="size1" min="1" required>
+                        <button type="button" onclick="generateMatrixOnPage('matrix-container', 'size1')">Создать матрицу смежности</button>
                         <div id="matrix-container" class="matrix-container"></div>
-                        <button type="button" class="submit-button" onclick="countEdges()">Посчитать число ребер</button>
-                        <button type="button" onclick="countIsolatedSubgraphs()">Посчитать число изолированных подграфов</button>
-                        <button type="button" onclick="calculateDiameter()">Посчитать диаметр графа</button>
+                        <button type="button" class="submit-edgesCount">Посчитать число ребер</button>
+                        <button type="button" class="submit-countIsolatedSubgraphs">Посчитать число изолированных подграфов</button>
+                        <button type="button" class="submit-calculateDiameter">Посчитать диаметр графа</button>
+                    </form>
+                    <form id="matrix-form2">
+                        <h1>Введите граф через матрицу смежности</h1>
+                        <label for="size">Размер графа:</label>
+                        <input type="number" id="size2" name="size2" min="1" required>
+                        <button type="button" onclick="generateMatrixOnPage('matrix-container2', 'size2')">Создать матрицу смежности</button>
+                        <div id="matrix-container2" class="matrix-container"></div>
                     </form>
                 </div>
             </div>
@@ -61,89 +68,75 @@
             <p>Для каждой вершины выполните поиск в ширину (BFS) или алгоритм Дейкстры (для взвешенных графов), чтобы найти кратчайшие пути до всех других вершин. Определите максимальное расстояние до любой другой вершины для каждой начальной вершины. Максимум среди этих максимальных расстояний и будет диаметром графа.</p>
         </div>
     </div>
-
+    <script src="/scripts/generateMatrixFun.js"></script>
     <script>
-        function generateMatrix() {
-            const size = parseInt(document.getElementById('size').value);
-            if (isNaN(size)) {
-                alert("Please enter a valid number for the size of the graph.");
-                return;
-            }
-            const container = document.getElementById('matrix-container');
+        function generateMatrixOnPage(id, sizeId) {
+            const container = document.getElementById(id);
             container.innerHTML = '';
-
-            const table = document.createElement('table');
-            table.style.minWidth = (size + 1) * 50 + 'px'; // Установка минимальной ширины таблицы
-            for (let i = 0; i <= size; i++) {
-                const row = document.createElement('tr');
-                for (let j = 0; j <= size; j++) {
-                    const cell = document.createElement(i === 0 || j === 0 ? 'th' : 'td');
-                    if (i === 0 && j > 0) {
-                        cell.innerText = j;
-                        cell.classList.add('sticky-header');
-                    } else if (j === 0 && i > 0) {
-                        cell.innerText = i;
-                        cell.classList.add('sticky-col');
-                    } else if (i > 0 && j > 0) {
-                        const input = document.createElement('input');
-                        input.type = 'checkbox';
-                        input.name = `cell-${i-1}-${j-1}`;
-                        input.dataset.row = i - 1;
-                        input.dataset.col = j - 1;
-                        input.addEventListener('change', handleCheckboxChange);
-                        cell.appendChild(input);
-                    }
-                    if (i === 0 || j === 0) {
-                        cell.classList.add('sticky-col');
-                    }
-                    row.appendChild(cell);
-                }
-                table.appendChild(row);
-            }
-            container.appendChild(table);
+            const size = parseInt(document.getElementById(sizeId).value);
+            console.log(size)
+            container.appendChild(generateMatrix(size, id));
         }
 
         function handleCheckboxChange(event) {
             const checkbox = event.target;
             const row = parseInt(checkbox.dataset.row);
             const col = parseInt(checkbox.dataset.col);
-            const correspondingCheckbox = document.querySelector(`input[name="cell-${col}-${row}"]`);
+            let name = checkbox.name.split('-');
+            name[name.length - 2] = col;
+            name[name.length - 1] = row;
+            const correspondingCheckbox = document.querySelector(`input[name="${name.toString().replace(/,/g, '-')}"]`);
             correspondingCheckbox.checked = checkbox.checked;
         }
 
-        document.getElementById('matrix-form').addEventListener('submit', function(event) {
+        document.querySelector('.submit-edgesCount').addEventListener('click', handleEdgesCount);
+        document.querySelector('.submit-countIsolatedSubgraphs').addEventListener('click', handleCountIsolatedSubgraphs);
+        document.querySelector('.submit-calculateDiameter').addEventListener('click', handleCalculateDiameter);
+        
+        function handleEdgesCount(event) {
             event.preventDefault();
 
-            const size = parseInt(document.getElementById('size').value);
-            if (isNaN(size)) {
+            const size1 = parseInt(document.getElementById('size1').value);
+            const size2 = parseInt(document.getElementById('size2').value);
+            size = size1;
+            console.log(size1)
+
+            if (isNaN(size1)) {
                 alert("Please enter a valid number for the size of the graph.");
                 return;
             }
 
-            const edges = [];
-            for (let i = 0; i < size; i++) {
-                for (let j = 0; j < size; j++) {
-                    const checkbox = document.querySelector(`input[name="cell-${i}-${j}"]`);
+            const edges1 = [];
+            for (let i = 0; i < size1; i++) {
+                for (let j = 0; j < size1; j++) {
+                    const checkbox = document.querySelector(`input[name="matrix-container-cell-${i}-${j}"]`);
                     if (checkbox && checkbox.checked) {
-                        edges.push([i, j]);
+                        edges1.push([i, j]);
                     }
                 }
             }
 
-            fetch('/create_graph', {
+            edges = edges1;
+
+            const edges2 = [];
+            for (let i = 0; i < size2; i++) {
+                for (let j = 0; j < size2; j++) {
+                    const checkbox = document.querySelector(`input[name="matrix-container2-cell-${i}-${j}"]`);
+                    if (checkbox && checkbox.checked) {
+                        edges2.push([i, j]);
+                    }
+                }
+            }
+
+            fetch('/CreateGraph', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ size, edges }),
+                body: JSON.stringify({ size, edges})
             })
             .then(response => response.json())
             .then(data => {
-                //alert(`Graph created! Check the console for the adjacency matrix.\nIs Connected: ${data.is_connected}`);
-                console.log(data.matrix);
-                console.log(data.is_connected);
-                // Обновляем изображение графа
-                
                 document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
                 document.getElementById('right-container').classList.replace('full-width', 'half-width');
                 document.getElementById('image-container').classList.remove('hidden');
@@ -152,7 +145,138 @@
             .catch((error) => {
                 console.error('Error:', error);
             });
-        });
+
+            fetch('/EdgesCount', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ size1, size2, edges1, edges2})
+            })
+            .then(response => response.json())
+            .then(data => {
+
+                console.log(data.edgesCount)
+                
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Функция для обработки события "Посчитать число изолированных подграфов"
+        function handleCountIsolatedSubgraphs(event) {
+            event.preventDefault();
+
+            const size = parseInt(document.getElementById('size1').value);
+
+            if (isNaN(size)) {
+                alert("Please enter a valid number for the size of the graph.");
+                return;
+            }
+
+            const edges = [];
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    const checkbox = document.querySelector(`input[name="matrix-container-cell-${i}-${j}"]`);
+                    if (checkbox && checkbox.checked) {
+                        edges.push([i, j]);
+                    }
+                }
+            }
+
+
+            fetch('/CreateGraph', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ size, edges})
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
+                document.getElementById('right-container').classList.replace('full-width', 'half-width');
+                document.getElementById('image-container').classList.remove('hidden');
+                document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+            fetch('/IsolatedSubgraphsCount', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ size, edges})
+            })
+            .then(response => response.json())
+            .then(data => {
+
+                console.log(data.isolatedSubgraphsCount)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Функция для обработки события "Посчитать диаметр графа"
+        function handleCalculateDiameter(event) {
+            event.preventDefault();
+            
+            const size = parseInt(document.getElementById('size2').value);
+            console.log(size)
+
+            if (isNaN(size)) {
+                alert("Please enter a valid number for the size of the graph.");
+                return;
+            }
+
+            const edges = [];
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    const checkbox = document.querySelector(`input[name="matrix-container2-cell-${i}-${j}"]`);
+                    if (checkbox && checkbox.checked) {
+                        edges.push([i, j]);
+                    }
+                }
+            }
+
+            fetch('/CreateGraph', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ size, edges})
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
+                document.getElementById('right-container').classList.replace('full-width', 'half-width');
+                document.getElementById('image-container').classList.remove('hidden');
+                document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+            fetch('/CalculateDiameter', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({size, edges})
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.diameter)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
     </script>
 </body>
 <footer>
