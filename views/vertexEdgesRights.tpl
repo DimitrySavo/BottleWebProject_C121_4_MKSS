@@ -115,6 +115,24 @@
                 }
             }
 
+            fetch('/CreateGraph', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ size, edges})
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
+                document.getElementById('right-container').classList.replace('full-width', 'half-width');
+                document.getElementById('image-container').classList.remove('hidden');
+                document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
             fetch('/checkVertexEdgesRights', {
                 method: 'POST',
                 headers: {
@@ -129,15 +147,10 @@
                 console.log(data.is_connected);
                 console.log(data.is_path);
                 // Обновляем изображение графа
-                
-                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
-                document.getElementById('right-container').classList.replace('full-width', 'half-width');
-                document.getElementById('image-container').classList.remove('hidden');
                 document.getElementById('ResultLinked').classList.remove('hidden');
                 document.getElementById('ResultPath').classList.remove('hidden');
                 document.getElementById('ResultPath').textContent = `Результат: ${data.is_path? "Путь существует":"Путь не существует"}`
                 document.getElementById('ResultLinked').textContent = `Граф ${data.is_connected? "Связный":"Не связный"}`
-                document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
             })
             .catch((error) => {
                 console.error('Error:', error);
