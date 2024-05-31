@@ -16,6 +16,9 @@ app.post('/checkVertexEdgesRights')(vertexEdgesRightsController.create_graph)
 app.post('/checkConcatenatedGraphs')(ConcatenatedGraphsController.create_graph)
 app.post('/EdgesCount')(EdgesCountController.create_graph)
 app.post('/IsolatedSubgraphsDiameter')(IsolatedSubgraphsDiameterController.create_graph)
+app.post('/EdgesCount')(IsolatedSubgraphsDiameterController.edges_count)
+app.post('/IsolatedSubgraphsCount')(IsolatedSubgraphsDiameterController.isolated_subgraphs_count)
+app.post('/CalculateDiameter')(IsolatedSubgraphsDiameterController.calculate_diameter)
 
 if __name__ == "__main__":
     app.run()

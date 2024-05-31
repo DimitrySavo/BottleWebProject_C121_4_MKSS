@@ -41,3 +41,48 @@ def create_graph():
     response.content_type = 'application/json'
     #отправка ответа
     return json.dumps({'is_connected': is_connected, 'matrix': matrix, 'image_base64': image_base64})
+
+def edges_count():
+    data = request.json
+    size = data['size']
+    matrix = data['matrix']
+    
+    graph = MGraph(size)
+    for i in range(size):
+        for j in range(size):
+            if matrix[i][j] == 1:
+                graph.add_edge(i, j)
+                
+    edges_count = graph.count_edges()
+    response.content_type = 'application/json'
+    return json.dumps({'edgesCount': edges_count})
+
+def isolated_subgraphs_count():
+    data = request.json
+    size = data['size']
+    matrix = data['matrix']
+    
+    graph = MGraph(size)
+    for i in range(size):
+        for j in range(size):
+            if matrix[i][j] == 1:
+                graph.add_edge(i, j)
+                
+    isolated_subgraphs_count = graph.count_isolated_subgraphs()
+    response.content_type = 'application/json'
+    return json.dumps({'isolatedSubgraphsCount': isolated_subgraphs_count})
+
+def calculate_diameter():
+    data = request.json
+    size = data['size']
+    matrix = data['matrix']
+    
+    graph = MGraph(size)
+    for i in range(size):
+        for j in range(size):
+            if matrix[i][j] == 1:
+                graph.add_edge(i, j)
+                
+    diameter = graph.diameter()
+    response.content_type = 'application/json'
+    return json.dumps({'diameter': diameter})
