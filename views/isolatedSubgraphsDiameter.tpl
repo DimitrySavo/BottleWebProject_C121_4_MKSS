@@ -97,7 +97,8 @@
 
             const size1 = parseInt(document.getElementById('size1').value);
             const size2 = parseInt(document.getElementById('size2').value);
-            console.log(size)
+            size = size1;
+            console.log(size1)
 
             if (isNaN(size1)) {
                 alert("Please enter a valid number for the size of the graph.");
@@ -114,6 +115,8 @@
                 }
             }
 
+            edges = edges1;
+
             const edges2 = [];
             for (let i = 0; i < size2; i++) {
                 for (let j = 0; j < size2; j++) {
@@ -129,7 +132,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ size1, edges1})
+                body: JSON.stringify({ size, edges})
             })
             .then(response => response.json())
             .then(data => {
