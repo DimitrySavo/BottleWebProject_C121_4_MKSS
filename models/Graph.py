@@ -1,3 +1,10 @@
+from bottle import Bottle, run, request, static_file, template, response, route
+import networkx as nx
+import matplotlib.pyplot as plt
+import io
+import base64
+import json
+
 class Graph:
     def __init__(self, size):
         self.size = size
@@ -132,3 +139,4 @@ class Graph:
             max_distance = max(max_distance, max(distances))
 
         return max_distance
+    

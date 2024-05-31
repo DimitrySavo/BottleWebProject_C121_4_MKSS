@@ -98,8 +98,6 @@
 
             const size1 = parseInt(document.getElementById('size1').value);
             const size2 = parseInt(document.getElementById('size2').value);
-            size = size1;
-            console.log(size1)
 
             if (isNaN(size1)) {
                 alert("Please enter a valid number for the size of the graph.");
@@ -116,7 +114,6 @@
                 }
             }
 
-            edges = edges1;
 
             const edges2 = [];
             for (let i = 0; i < size2; i++) {
@@ -128,12 +125,12 @@
                 }
             }
 
-            fetch('/CreateGraph', {
+            fetch('/Create2Graph', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ size, edges})
+                body: JSON.stringify({ size1,edges1,size2,edges2})
             })
             .then(response => response.json())
             .then(data => {
