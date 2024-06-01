@@ -90,9 +90,10 @@ def edges_count():
     graph1.add_nodesAndEdges(size1, edges1)
     graph2.add_nodesAndEdges(size2, edges2)
                 
-    edges_count = graph1.count_edges() + graph2.count_edges()
+    edges_count = graph1.count_edges()
+    edges_count2 = graph2.count_edges()
     response.content_type = 'application/json'
-    return json.dumps({'edgesCount': edges_count})
+    return json.dumps({'edgesCount': edges_count, 'edgesCount2': edges_count2})
 
 def isolated_subgraphs_count():
     data = request.json

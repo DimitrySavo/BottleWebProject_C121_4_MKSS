@@ -18,10 +18,10 @@
                 </div>
             </div>
             <div class="right full-width" id="right-container">
-                <div class="container-base-page">
+                <div class="container-base-page right-container-with-answer">
                     <form id="matrix-form">
                         <h1>Введите граф через матрицу смежности</h1>
-                        <label for="size">Размер графа:</label>
+                        <label for="size1">Размер графа:</label>
                         <input type="number" id="size1" name="size1" min="1" required>
                         <button type="button" onclick="generateMatrixOnPage('matrix-container', 'size1')">Создать матрицу смежности</button>
                         <div id="matrix-container" class="matrix-container"></div>
@@ -31,11 +31,18 @@
                     </form>
                     <form id="matrix-form2">
                         <h1>Введите граф через матрицу смежности</h1>
-                        <label for="size">Размер графа:</label>
+                        <label for="size2">Размер графа:</label>
                         <input type="number" id="size2" name="size2" min="1" required>
                         <button type="button" onclick="generateMatrixOnPage('matrix-container2', 'size2')">Создать матрицу смежности</button>
                         <div id="matrix-container2" class="matrix-container"></div>
                     </form>
+                    <div id="results" class="results-container"> <!-- Добавлен контейнер для результатов -->
+                        <p id="edgesCountResult"></p> <!-- Параграф для вывода числа ребер -->
+                        <p></p>
+                        <p id="isolatedSubgraphsResult"></p> <!-- Параграф для вывода числа изолированных подграфов -->
+                        <p></p>
+                        <p id="diameterResult"></p> <!-- Параграф для вывода диаметра графа -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,10 +80,13 @@
             const container = document.getElementById(id);
             container.innerHTML = '';
             const size = parseInt(document.getElementById(sizeId).value);
-            console.log(size)
+            if (isNaN(size) || size < 1) {
+                alert('Please enter a valid number for the size of the graph.');
+                return;
+            }
             container.appendChild(generateMatrix(size, id));
         }
-
+    
         function handleCheckboxChange(event) {
             const checkbox = event.target;
             const row = parseInt(checkbox.dataset.row);
@@ -85,24 +95,26 @@
             name[name.length - 2] = col;
             name[name.length - 1] = row;
             const correspondingCheckbox = document.querySelector(`input[name="${name.toString().replace(/,/g, '-')}"]`);
-            correspondingCheckbox.checked = checkbox.checked;
+            if (correspondingCheckbox) {
+                correspondingCheckbox.checked = checkbox.checked;
+            }
         }
-
+    
         document.querySelector('.submit-edgesCount').addEventListener('click', handleEdgesCount);
         document.querySelector('.submit-countIsolatedSubgraphs').addEventListener('click', handleCountIsolatedSubgraphs);
         document.querySelector('.submit-calculateDiameter').addEventListener('click', handleCalculateDiameter);
         
         function handleEdgesCount(event) {
             event.preventDefault();
-
+    
             const size1 = parseInt(document.getElementById('size1').value);
             const size2 = parseInt(document.getElementById('size2').value);
-
-            if (isNaN(size1)) {
-                alert("Please enter a valid number for the size of the graph.");
+    
+            if (isNaN(size1) || size1 < 1) {
+                alert("Please enter a valid number for the size of the first graph.");
                 return;
             }
-
+    
             const edges1 = [];
             for (let i = 0; i < size1; i++) {
                 for (let j = 0; j < size1; j++) {
@@ -112,24 +124,25 @@
                     }
                 }
             }
-
-
+    
             const edges2 = [];
-            for (let i = 0; i < size2; i++) {
-                for (let j = 0; j < size2; j++) {
-                    const checkbox = document.querySelector(`input[name="matrix-container2-cell-${i}-${j}"]`);
-                    if (checkbox && checkbox.checked) {
-                        edges2.push([i, j]);
+            if (!isNaN(size2) && size2 > 0) {
+                for (let i = 0; i < size2; i++) {
+                    for (let j = 0; j < size2; j++) {
+                        const checkbox = document.querySelector(`input[name="matrix-container2-cell-${i}-${j}"]`);
+                        if (checkbox && checkbox.checked) {
+                            edges2.push([i, j]);
+                        }
                     }
                 }
             }
-
+    
             fetch('/Create2Graph', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ size1,edges1,size2,edges2})
+                body: JSON.stringify({ size1, edges1, size2, edges2 })
             })
             .then(response => response.json())
             .then(data => {
@@ -141,36 +154,33 @@
             .catch((error) => {
                 console.error('Error:', error);
             });
-
+    
             fetch('/EdgesCount', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ size1, size2, edges1, edges2})
+                body: JSON.stringify({ size1, size2, edges1, edges2 })
             })
             .then(response => response.json())
             .then(data => {
-
-                console.log(data.edgesCount)
-                
+                document.getElementById('edgesCountResult').innerHTML = `Число ребер в первом графе: ${data.edgesCount} и во втором ${data.edgesCount2}`;
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
         }
-
-        // Функция для обработки события "Посчитать число изолированных подграфов"
+    
         function handleCountIsolatedSubgraphs(event) {
             event.preventDefault();
-
+    
             const size = parseInt(document.getElementById('size1').value);
-
-            if (isNaN(size)) {
+    
+            if (isNaN(size) || size < 1) {
                 alert("Please enter a valid number for the size of the graph.");
                 return;
             }
-
+    
             const edges = [];
             for (let i = 0; i < size; i++) {
                 for (let j = 0; j < size; j++) {
@@ -180,14 +190,13 @@
                     }
                 }
             }
-
-
+    
             fetch('/CreateGraph', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ size, edges})
+                body: JSON.stringify({ size, edges })
             })
             .then(response => response.json())
             .then(data => {
@@ -199,36 +208,33 @@
             .catch((error) => {
                 console.error('Error:', error);
             });
-
+    
             fetch('/IsolatedSubgraphsCount', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ size, edges})
+                body: JSON.stringify({ size, edges })
             })
             .then(response => response.json())
             .then(data => {
-
-                console.log(data.isolatedSubgraphsCount)
+                document.getElementById('isolatedSubgraphsResult').innerHTML = `\nЧисло изолированных подграфов в первом графе: ${data.isolatedSubgraphsCount}`;
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
         }
-
-        // Функция для обработки события "Посчитать диаметр графа"
+    
         function handleCalculateDiameter(event) {
             event.preventDefault();
             
             const size = parseInt(document.getElementById('size2').value);
-            console.log(size)
-
-            if (isNaN(size)) {
+    
+            if (isNaN(size) || size < 1) {
                 alert("Please enter a valid number for the size of the graph.");
                 return;
             }
-
+    
             const edges = [];
             for (let i = 0; i < size; i++) {
                 for (let j = 0; j < size; j++) {
@@ -238,13 +244,13 @@
                     }
                 }
             }
-
+    
             fetch('/CreateGraph', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ size, edges})
+                body: JSON.stringify({ size, edges })
             })
             .then(response => response.json())
             .then(data => {
@@ -256,24 +262,24 @@
             .catch((error) => {
                 console.error('Error:', error);
             });
-
+    
             fetch('/CalculateDiameter', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({size, edges})
+                body: JSON.stringify({ size, edges })
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data.diameter)
+                document.getElementById('diameterResult').innerHTML = `\nДиаметр второго графа — длину максимальной цепи в графе: ${data.diameter}`;
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
         }
-
     </script>
+    
 </body>
 <footer>
     {{ !footer }}
