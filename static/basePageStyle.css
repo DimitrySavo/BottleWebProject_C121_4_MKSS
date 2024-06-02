@@ -179,6 +179,7 @@ button:hover {
     margin-bottom: 20px;
     font-weight: 500;
     text-align: left;
+    font-size: 24px;
 }
 
 label {
@@ -203,7 +204,8 @@ label {
 .image-with-text{
     display: grid;
     grid-template-columns: 200px 1fr;
-    justify-items: center;
+    gap: 20px;
+    justify-items: left;
 }
 
 .image-with-text img{
@@ -223,15 +225,13 @@ label {
     justify-self: center;
 }
 
-.right-container-with-answers{
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    justify-content: center;
-}
-
 .right-container-with-answers span{
     font-size: 24px;
     color: #fff;
     margin: 10px;
+}
+
+.form-and-result-container{
+    display: flex;
+    flex-direction: column;
 }

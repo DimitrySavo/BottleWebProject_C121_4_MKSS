@@ -47,6 +47,7 @@ header{
     display: grid;
     z-index: 999;
     grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
 }
 
 header h1{
@@ -57,7 +58,7 @@ header h1{
 
 header a{
     padding-top: 7px;
-    font-size: 20px;
+    font-size: 26px;
     grid-column: 3;
     text-decoration: none;
     color: #fff;

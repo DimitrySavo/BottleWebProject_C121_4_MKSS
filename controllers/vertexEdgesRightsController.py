@@ -16,10 +16,16 @@ def check_path():
 
     graph = MGraph(size)#Создание графа для математических подсчётов
     graph.add_nodesAndEdges(size,edges)
-   
+
+    
 
     is_connected = graph.is_connected()
     is_path = graph.path(pathX - 1, pathY - 1)
+
+
+
+    print(is_connected)
+    print(is_path)
 
     response.content_type = 'application/json'
     #отправка ответа

@@ -55,6 +55,7 @@
     </div>
     <script src="/scripts/generateMatrixFun.js"></script>
     <script>
+        //Создание матрицы на странице
         function generateMatrixOnPage(id) {
             const container = document.getElementById(id);
             container.innerHTML = '';
@@ -62,6 +63,7 @@
             container.appendChild(generateMatrix(size, id));
         }
 
+        //Обработчик отзеркаливает действия пользователя
         function handleCheckboxChange(event) {
             const checkbox = event.target;
             const row = parseInt(checkbox.dataset.row);
@@ -73,6 +75,7 @@
             correspondingCheckbox.checked = checkbox.checked;
         }
 
+        //Обработчик получает данные и отправляет на сервер
         document.getElementById('matrix-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -97,24 +100,22 @@
                 alert("Указан неверный путь ");
                 return;
             }
+            console.log(pathX)
+            console.log(pathY)
 
+            //Получение матрицы смежности графа
             const edges = [];
             console.log(edges);
             for (let i = 0; i < size; i++) {
-                console.log("i");
-                console.log(i);
                 for (let j = 0; j < size; j++) {
-                    console.log("j");
-                    console.log(j)
                     const checkbox = document.querySelector(`input[name="matrix-container-cell-${i}-${j}"]`);
-                    console.log(checkbox.name);
                     if (checkbox && checkbox.checked) {
-                        console.log("Нажат");
                         edges.push([i, j]);
                     }
                 }
             }
 
+            //Создание и вывод графа на экран
             fetch('/CreateGraph', {
                 method: 'POST',
                 headers: {
@@ -133,6 +134,7 @@
                 console.error('Error:', error);
             });
 
+            //ПРоверка пути графа
             fetch('/checkVertexEdgesRights', {
                 method: 'POST',
                 headers: {
@@ -142,11 +144,10 @@
             })
             .then(response => response.json())
             .then(data => {
-                //alert(`Graph created! Check the console for the adjacency matrix.\nIs Connected: ${data.is_connected}`);
                 console.log(data.matrix);
                 console.log(data.is_connected);
                 console.log(data.is_path);
-                // Обновляем изображение графа
+
                 document.getElementById('ResultLinked').classList.remove('hidden');
                 document.getElementById('ResultPath').classList.remove('hidden');
                 document.getElementById('ResultPath').textContent = `Результат: ${data.is_path? "Путь существует":"Путь не существует"}`
