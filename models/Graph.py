@@ -78,13 +78,15 @@ class Graph:
             degrees[i] = sum(self.matrix[i])
         return degrees
 
-    def is_regular(self):
-        degrees = self.degrees()
-        first_degree = degrees[0]
-        for degree in degrees:
-            if degree != first_degree:
-                return False
-        return True
+    def is_regular(self, amountOfVertexes):
+        if self.size == amountOfVertexes:
+            degrees = self.degrees()
+            first_degree = degrees[0]
+            for degree in degrees:
+                if degree != first_degree:
+                    return "Граф не правильный"
+            return "Граф правильный"
+        return "Не верное число вершин"
     
     # Новый метод для подсчета числа ребер
     def count_edges(self):
