@@ -145,4 +145,3 @@ class Graph:
             max_distance = max(max_distance, max(distances))
 
         return max_distance
-    
