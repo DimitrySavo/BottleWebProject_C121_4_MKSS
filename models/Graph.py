@@ -84,9 +84,9 @@ class Graph:
             first_degree = degrees[0]
             for degree in degrees:
                 if degree != first_degree:
-                    return "Граф не правильный"
-            return "Граф правильный"
-        return "Не верное число вершин"
+                    return "Не правильный"
+            return "Правильный"
+        return "Неверное число вершин"
     
     # Новый метод для подсчета числа ребер
     def count_edges(self):
