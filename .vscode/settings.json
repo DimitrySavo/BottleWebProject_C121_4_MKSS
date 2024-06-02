@@ -2,5 +2,14 @@
     "cSpell.language": "en,ru",
     "files.associations": {
         ".tpl": ".html"
-    }
+    },
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": true,
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./utests",
+        "-p",
+        "test_*.py"
+    ]
 }

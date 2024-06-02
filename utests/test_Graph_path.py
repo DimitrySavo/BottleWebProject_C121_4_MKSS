@@ -1,0 +1,22 @@
+import unittest
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from models.Graph import Graph
+
+GRAPHRORTEST = Graph(4)
+GRAPHRORTEST.add_nodesAndEdges(4,[(0,1),(1,2),(2,3),(1,0),(2,1),(3,2)])
+
+
+class PathTests(unittest.TestCase):
+    def test_T_path_with_0_to_3(self):
+        self.assertTrue(GRAPHRORTEST.path(0, 3))
+    def test_T_path_with_0_to_1(self):
+        self.assertTrue(GRAPHRORTEST.path(0, 1))
+    def test_T_path_with_0_to_2(self):
+        self.assertTrue(GRAPHRORTEST.path(0, 2))
+    def test_T_path_with_1_to_3(self):
+        self.assertTrue(GRAPHRORTEST.path(1, 3))
+
+if __name__ == '__main__':
+    unittest.main()

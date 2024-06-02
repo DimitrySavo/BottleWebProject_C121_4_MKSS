@@ -14,7 +14,7 @@ class Graph:
         self.matrix[v1][v2] = 1
         self.matrix[v2][v1] = 1
 
-    # New method to add nodes from a list
+    # add nodes from a list
     def add_nodes_from(self, nodes):
         new_size = max(nodes) + 1
         if new_size > self.size:
@@ -24,7 +24,7 @@ class Graph:
                 self.matrix.append([0] * new_size)
             self.size = new_size
 
-    # New method to add edges from a list
+    # add edges from a list
     def add_edges_from(self, edges):
         for v1, v2 in edges:
             self.add_edge(v1, v2)
@@ -54,21 +54,27 @@ class Graph:
 
     def path(self, start, end):
         visited = [False] * self.size
-        return self.dfs(start, end, visited)
+        return self.dfs(start, end, visited, 0)
 
-    def dfs(self, current, end, visited):
+    #Алгоритм поиска в глубину
+    def dfs(self, current, end, visited, nested_count):
         if current == end:
-            return True
-        visited[current] = True
-        for neighbor in range(self.size):
+            if self.matrix[current][end] == 1 and nested_count == 0: 
+                return True
+            elif nested_count > 0:
+                return True
+        nested_count += 1
+        visited[current] = True 
+        for neighbor in range(self.size): 
             if self.matrix[current][neighbor] == 1 and not visited[neighbor]:
-                if self.dfs(neighbor, end, visited):
+                if self.dfs(neighbor, end, visited, nested_count):
                     return True
-        return False
+        return False 
 
+    #Алгоритм проверяет является ли граф связным
     def is_connected(self):
-        for i in range(1, self.size):
-            if not self.path(0, i):
+        for i in range(1, self.size):#Пробегается по всем вершинам графа
+            if not self.path(0, i):#И проверяет есть ли такой путь
                 return False
         return True
 
@@ -141,4 +147,3 @@ class Graph:
             max_distance = max(max_distance, max(distances))
 
         return max_distance
-    
