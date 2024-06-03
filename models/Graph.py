@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import io
 import base64
 import json
+import os
 
 class Graph:
     def __init__(self, size):
@@ -149,3 +150,14 @@ class Graph:
             max_distance = max(max_distance, max(distances))
 
         return max_distance
+    
+    def save_base64_img(text):
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        history_file = os.path.join(base_dir, 'history', 'history.txt')
+        try:
+            with open(history_file, 'a') as file:  # Открытие файла в режиме добавления
+                file.write(text + '\n')  # Запись строки и добавление новой строки
+            return True
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return False

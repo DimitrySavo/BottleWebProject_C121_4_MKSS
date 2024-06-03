@@ -24,5 +24,10 @@ class DegreesTests(unittest.TestCase):
         self.graphThreeNodes.matrix = [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
         self.assertEqual(self.graphThreeNodes.degrees(), [3, 3, 3])
 
+    def disconnected_graph(self):
+        #тестирование функции degrees() при 2х несвязных графов
+        self.graphThreeNodes.matrix = [[1, 0, 0], [0, 0, 1], [0, 1, 0]]
+        self.assertEqual(self.graphThreeNodes.degrees(), [1, 1, 1])
+
 if __name__ == '__main__':
     unittest.main()

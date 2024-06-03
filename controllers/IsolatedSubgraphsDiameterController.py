@@ -74,6 +74,10 @@ def create_image_2graph_from_client():
     buf.close()
     plt.close()
 
+    print(image_base64)
+
+    
+
     response.content_type = 'application/json'
     #отправка ответа
     return json.dumps({'image_base64': image_base64})
