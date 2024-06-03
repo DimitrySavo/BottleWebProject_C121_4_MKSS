@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import io
 import base64
 import json
-
+import os
 
 def find_divisors(n):
     divisors = [i for i in range(1, n+1) if n % i == 0]
@@ -116,13 +116,13 @@ class Graph:
     #Алгоритм поиска в глубину
     def dfs(self, current, end, visited, nested_count):
         if current == end:
-            if self.matrix[current][end] == 1 and nested_count == 0: 
+            if self.matrix[current][end] == 1 and nested_count == 0: #Проверка на петлю
                 return True
             elif nested_count > 0:
                 return True
         nested_count += 1
-        visited[current] = True 
-        for neighbor in range(self.size): 
+        visited[current] = True #Вершина посещена
+        for neighbor in range(self.size): #переход на соседнии вершины
             if self.matrix[current][neighbor] == 1 and not visited[neighbor]:
                 if self.dfs(neighbor, end, visited, nested_count):
                     return True
@@ -205,4 +205,14 @@ class Graph:
             max_distance = max(max_distance, max(distances))
 
         return max_distance
+    
+    def save_base64_img(self, text):
+        history_file = os.path.join('history', 'history.txt')
+        try:
+            with open(history_file, 'a') as file:  # Открытие файла в режиме добавления
+                file.write(text + '\n')  # Запись строки и добавление новой строки
+            return True
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return False
     
