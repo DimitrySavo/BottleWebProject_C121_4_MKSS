@@ -78,12 +78,14 @@ class Graph:
                 return False
         return True
 
+    #Метод для подсчета степеней вершин у графа
     def degrees(self):
         degrees = [0] * self.size
         for i in range(self.size):
             degrees[i] = sum(self.matrix[i])
         return degrees
 
+    #Метод для определения правильности графа с заданным количеством вершин
     def is_regular(self, amountOfVertexes):
         if self.size == amountOfVertexes:
             degrees = self.degrees()
