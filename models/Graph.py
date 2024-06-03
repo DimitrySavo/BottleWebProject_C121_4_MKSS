@@ -151,9 +151,8 @@ class Graph:
 
         return max_distance
     
-    def save_base64_img(text):
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        history_file = os.path.join(base_dir, 'history', 'history.txt')
+    def save_base64_img(self, text):
+        history_file = os.path.join('history', 'history.txt')
         try:
             with open(history_file, 'a') as file:  # Открытие файла в режиме добавления
                 file.write(text + '\n')  # Запись строки и добавление новой строки

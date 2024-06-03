@@ -23,7 +23,7 @@ def degrees_for_graphs():
     degrees1 = graph1.degrees()
     degrees2 = graph2.degrees()
 
-    graph1.save_base64_img(f'{size1}, {size2}, {edges1}, {edges2}')
+    graph1.save_base64_img(f"{size1}, {size2}, {edges1}, {edges2}")
 
     return json.dumps({'degrees1' : degrees1, 'degrees2' : degrees2})
 
@@ -44,7 +44,7 @@ def is_regular_graphs_with_n():
     is_first_regular = graph1.is_regular(amountOfVertexes)
     is_second_regular = graph2.is_regular(amountOfVertexes)
 
-    graph1.save_base64_img(f'{size1}, {size2}, {edges1}, {edges2}')
+    graph1.save_base64_img(f"{size1}, {size2}, {edges1}, {edges2}")
 
     return json.dumps({'is_first_regular' : is_first_regular, 'is_second_regular' : is_second_regular})
 
