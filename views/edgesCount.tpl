@@ -157,13 +157,14 @@
             })
             .then(response => response.json())
             .then(data =>{
+                console.log(data.set_of_regular_graphs)
                 document.getElementById('ResultRegularFirst').classList.remove('hidden');
                 document.getElementById('ResultRegularSecond').classList.remove('hidden');
                 let matricesString = data.set_of_regular_graphs.map(matrix => {
                     return matrix.map(row => row.join(' ')).join('\n');
                 }).join('\n\n');
 
-                document.getElementById('ResultRegularFirst').textContent = matricesString;
+                document.getElementById('ResultRegularFirst').innerHTML = `<pre><code>${matricesString}</code></pre>`;
             })
         }
 
