@@ -5,6 +5,63 @@ import io
 import base64
 import json
 
+
+def find_divisors(n):
+    divisors = [i for i in range(1, n+1) if n % i == 0]
+    return divisors
+
+def line_for_big_matrix(size, step, line_part):
+    line = [0] * size
+    line[step:step + len(line_part)] = line_part
+    return line
+
+def insert_in_matrix(matrix_list, small_matrix):
+    step = len(small_matrix[0])
+    big_matrix = [[0 for _ in range(len(matrix_list[0][0]))] for _ in range(len(matrix_list[0][0]))]
+    for i in range(len(big_matrix)):
+        big_matrix[i] = line_for_big_matrix(len(matrix_list[0][0]), step * (i//len(small_matrix)), small_matrix[i % len(small_matrix)])
+
+    matrix_list.append(big_matrix)
+    return matrix_list
+
+def generate_matrix_line(amount, size, start_index):
+    l = [0] * size
+    for i in range(amount):
+        l[(1 + start_index + i)% size] = 1
+    for i in range(amount):
+        l[(size - 1 + start_index - i) % size] = 1
+    return l
+
+def generate_matrix(size):
+    all_matrix = []
+    m = []
+    for i in range(size):
+        for j in range(size):
+            m.append(generate_matrix_line(i, size, j))
+        all_matrix.append(m)
+        if sum(m[0]) == size - 1:
+            print(f"Found a solution at iteration {i}")
+            break
+        m = []
+
+    return all_matrix
+
+def add_incoherenet_graphs(matrix_list, size):
+    if size % 2 == 0:
+        for div in find_divisors(size):
+            if div == 1 or div == size:
+                continue
+            list_of_small_matrixes = generate_matrix(div)
+            for small_matrix in list_of_small_matrixes:
+                matrix_list = insert_in_matrix(matrix_list, small_matrix)
+    return matrix_list  
+        
+
+def call_both(size):
+    matrix_list = generate_matrix(size)
+    matrix_list = add_incoherenet_graphs(matrix_list, size)
+    return matrix_list
+
 class Graph:
     def __init__(self, size):
         self.size = size
@@ -84,18 +141,17 @@ class Graph:
         for i in range(self.size):
             degrees[i] = sum(self.matrix[i])
         return degrees
-
-    #Метод для определения правильности графа с заданным количеством вершин
-    def is_regular(self, amountOfVertexes):
-        if self.size == amountOfVertexes:
-            degrees = self.degrees()
-            first_degree = degrees[0]
-            for degree in degrees:
-                if degree != first_degree:
-                    return "Не правильный"
-            return "Правильный"
-        return "Неверное число вершин"
     
+    
+
+    #Метод для получения правильных графов с заданным количеством вершин
+    def is_regular(self, amountOfVertexes):
+        list_of_matrix = call_both(amountOfVertexes)
+
+        # Преобразование списка матриц в set кортежей
+        set_of_matrix = set(tuple(tuple(row) for row in matrix) for matrix in list_of_matrix)
+        return set_of_matrix
+            
     # Новый метод для подсчета числа ребер
     def count_edges(self):
         count = 0
@@ -149,3 +205,4 @@ class Graph:
             max_distance = max(max_distance, max(distances))
 
         return max_distance
+    
