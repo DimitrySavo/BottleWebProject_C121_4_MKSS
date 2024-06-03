@@ -59,13 +59,13 @@ class Graph:
     #Алгоритм поиска в глубину
     def dfs(self, current, end, visited, nested_count):
         if current == end:
-            if self.matrix[current][end] == 1 and nested_count == 0: 
+            if self.matrix[current][end] == 1 and nested_count == 0: #Проверка на петлю
                 return True
             elif nested_count > 0:
                 return True
         nested_count += 1
-        visited[current] = True 
-        for neighbor in range(self.size): 
+        visited[current] = True #Вершина посещена
+        for neighbor in range(self.size): #переход на соседнии вершины
             if self.matrix[current][neighbor] == 1 and not visited[neighbor]:
                 if self.dfs(neighbor, end, visited, nested_count):
                     return True
