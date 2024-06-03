@@ -77,7 +77,6 @@ def create_image_2graph_from_client():
     print(image_base64)
 
     
-
     response.content_type = 'application/json'
     #отправка ответа
     return json.dumps({'image_base64': image_base64})

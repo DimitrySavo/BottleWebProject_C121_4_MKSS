@@ -39,9 +39,7 @@ def is_regular_graphs_with_n():
 
     set_of_regular_graphs = graph1.is_regular(amountOfVertexes)
 
-    is_first_regular = graph1.is_regular(amountOfVertexes)
-
     graph1.save_base64_img(f"{size1}, {size2}, {edges1}, {edges2}")
 
-    return json.dumps({'set_of_regular_graphs' : set_of_regular_graphs})
+    return json.dumps({'set_of_regular_graphs' : list(set_of_regular_graphs)})
 

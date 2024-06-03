@@ -135,7 +135,9 @@
                 },
                 body: JSON.stringify({ size1,edges1,size2,edges2})
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+                response.json()})
             .then(data => {
                 document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
                 document.getElementById('right-container').classList.replace('full-width', 'half-width');
@@ -157,8 +159,11 @@
             .then(data =>{
                 document.getElementById('ResultRegularFirst').classList.remove('hidden');
                 document.getElementById('ResultRegularSecond').classList.remove('hidden');
-                document.getElementById('ResultRegularFirst').textContent = `Граф 1: ${ data.is_first_regular}`
-                document.getElementById('ResultRegularSecond').textContent = `Граф 2: ${data.is_second_regular}`
+                let matricesString = data.set_of_regular_graphs.map(matrix => {
+                    return matrix.map(row => row.join(' ')).join('\n');
+                }).join('\n\n');
+
+                document.getElementById('ResultRegularFirst').textContent = matricesString;
             })
         }
 
