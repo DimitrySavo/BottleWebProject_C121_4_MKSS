@@ -42,7 +42,6 @@ def generate_matrix(size):
     if type(size) != int:
         return all_matrix
     if size == 1:
-        all_matrix.append([0])
         all_matrix.append([1])
         return all_matrix
     m = []
