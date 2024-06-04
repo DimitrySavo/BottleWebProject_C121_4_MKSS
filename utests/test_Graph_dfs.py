@@ -27,7 +27,6 @@ class DfsTests(unittest.TestCase):
 
     def test_path_does_not_exist(self): #Проверка пути несвязанных вершин
         visited = [False] * GRAPH_FOR_TEST.size
-        print(GRAPH_FOR_TEST.size)
         GRAPH_FOR_TEST.add_nodes_from([5])
         self.assertFalse(GRAPH_FOR_TEST.dfs(0, 5, visited, 0))
         visited = [False] * GRAPH_FOR_TEST.size
@@ -51,7 +50,7 @@ class DfsTests(unittest.TestCase):
         visited = [False] * GRAPH_FOR_TEST.size
         self.assertTrue(GRAPH_FOR_TEST.dfs(5, 6, visited, 0))
 
-    def test_graph_with_non_affecting_loops(self): #Проверка для влияние петли на поиск пути между другими вершинами
+    def test_graph_with_non_affecting_loops(self): #Проверка на влияние петли на поиск пути между другими вершинами
         GRAPH_FOR_TEST.add_edge(1, 1)
         GRAPH_FOR_TEST.add_edge(3, 3)
         visited = [False] * GRAPH_FOR_TEST.size
