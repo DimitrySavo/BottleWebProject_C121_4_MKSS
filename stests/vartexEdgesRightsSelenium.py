@@ -14,7 +14,7 @@ try:
     driver.get("http://127.0.0.1:8080/vertexEdgesRights")
 
     # Ввод размера графа
-    size_input = driver.find_element(By.ID, "size").send_keys("20")
+    size_input = driver.find_element(By.ID, "size").send_keys("3")
 
     # Нажатие на кнопку создания матрицы
     generate_button = driver.find_element(By.XPATH, "//button[text()='Создать матрицу смежности']").click()
