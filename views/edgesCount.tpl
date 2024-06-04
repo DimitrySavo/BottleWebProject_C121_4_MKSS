@@ -23,7 +23,7 @@
                         <form id="matrix-form">
                             <h1>Матрица смежности 1</h1>
                             <label for="size">Размер графа:</label>
-                            <input type="number" id="size" name="size" min="1" required>
+                            <input type="number" id="size" name="size" min="1" required onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                             <button type="button" onclick="generateMatrixOnPage('matrix-container', 'size')">Создать матрицу смежности</button>
                             <div id="matrix-container" class="matrix-container"></div>
                             <label for="countEdges">Количество вершин</label>
@@ -39,7 +39,7 @@
                     <form id="matrix-form2">
                         <h1>Матрица смежности 2</h1>
                         <label for="size">Размер графа:</label>
-                        <input type="number" id="size2" name="size2" min="1" required>
+                        <input type="number" id="size2" name="size2" min="1" required onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
                         <button type="button" onclick="generateMatrixOnPage('matrix-container2', 'size2')">Создать матрицу смежности</button>
                         <div id="matrix-container2" class="matrix-container"></div>
                     </form>
@@ -65,6 +65,7 @@
     </div>
     <script src="/scripts/generateMatrixFun.js"></script>
     <script>
+        //Функция для генерации функции на странице, которая использует внешний скрипт, подключенный выше
         function generateMatrixOnPage(id, sizeId) {
             const container = document.getElementById(id);
             container.innerHTML = '';
@@ -74,6 +75,7 @@
             container.appendChild(generateMatrix(size, id));
         }
 
+        //Функция для обработки нажатия на checkbox и зеркальное отражение его на другую половину матрицы 
         function handleCheckboxChange(event) {
             const checkbox = event.target;
             const row = parseInt(checkbox.dataset.row);
@@ -85,19 +87,19 @@
             correspondingCheckbox.checked = checkbox.checked;
         }
 
+        //Подключение обработчиков для кнопок
         document.querySelector('.submit-Check').addEventListener('click', handleCheck);
         document.querySelector('.submit-Degree').addEventListener('click', handleDegree);
         
         // Функция для обработки события "Проверить графы на правильность"
         function handleCheck(event) {
             event.preventDefault();
-            alert('Посчитать число изолированных подграфов');
 
             const size1 = parseInt(document.getElementById('size').value);
             const size2 = parseInt(document.getElementById('size2').value);
 
             if (isNaN(size1)) {
-                alert("Please enter a valid number for the size of the graph.");
+                alert("Пожайлуста, введите корректный размер графа.");
                 return;
             }
 
@@ -125,14 +127,16 @@
             const amountOfVertexes = parseInt(document.getElementById('countEdges').value);
             console.log(amountOfVertexes)
 
-            fetch('/Create2Graph', {
+            fetch('/Create2Graph', { //вызов функции python с передачей информации о графах для отрисовки на странице
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ size1,edges1,size2,edges2})
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+                response.json()})
             .then(data => {
                 document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
                 document.getElementById('right-container').classList.replace('full-width', 'half-width');
@@ -143,7 +147,7 @@
                 console.error('Error:', error);
             });
 
-            fetch('/IsGraphOfNRegular',{
+            fetch('/IsGraphOfNRegular',{ //вызов функции python с передачей информации о графах для проверки их на правильность
                 method: 'POST',
                 headers: {
                     'Content-Type' : 'application/json',
@@ -152,17 +156,20 @@
             })
             .then(response => response.json())
             .then(data =>{
+                console.log(data.set_of_regular_graphs)
                 document.getElementById('ResultRegularFirst').classList.remove('hidden');
                 document.getElementById('ResultRegularSecond').classList.remove('hidden');
-                document.getElementById('ResultRegularFirst').textContent = `Граф 1: ${ data.is_first_regular}`
-                document.getElementById('ResultRegularSecond').textContent = `Граф 2: ${data.is_second_regular}`
+                let matricesString = data.set_of_regular_graphs.map(matrix => {
+                    return matrix.map(row => row.join(' ')).join('\n');
+                }).join('\n\n');
+
+                document.getElementById('ResultRegularFirst').innerHTML = `<pre><code>${matricesString}</code></pre>`;
             })
         }
 
         // Функция для обработки события "Посчитать степени вершин"
         function handleDegree(event) {
             event.preventDefault();
-            alert('Посчитать число ребер');
             
             const size1 = parseInt(document.getElementById('size').value);
             const size2 = parseInt(document.getElementById('size2').value);
@@ -211,7 +218,7 @@
                 console.error('Error:', error);
             });
 
-            fetch('/DegreesForGraph',{
+            fetch('/DegreesForGraph',{ //Функция для проверки 
                 method: 'POST',
                 headers: {
                     'Content-Type' : 'application/json',

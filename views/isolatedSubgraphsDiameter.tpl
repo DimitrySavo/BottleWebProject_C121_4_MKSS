@@ -155,8 +155,8 @@
             .catch((error) => {
                 console.error('Error:', error);
             });
-    
-            fetch('/EdgesCount', {
+
+            /*fetch('/EdgesCount', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -169,7 +169,7 @@
             })
             .catch((error) => {
                 console.error('Error:', error);
-            });
+            });*/
         }
     
         function handleCountIsolatedSubgraphs(event) {

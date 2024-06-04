@@ -22,6 +22,9 @@ app.post('/IsolatedSubgraphsCount')(IsolatedSubgraphsDiameterController.isolated
 app.post('/CalculateDiameter')(IsolatedSubgraphsDiameterController.calculate_diameter)
 app.post('/CreateGraph')(IsolatedSubgraphsDiameterController.create_image_graph_from_client)
 app.post('/Create2Graph')(IsolatedSubgraphsDiameterController.create_image_2graph_from_client)
+app.post('/CreateUnitedGraph')(ConcatenatedGraphsController.create_united_graph)
+app.post('/CreateIntersection')(ConcatenatedGraphsController.create_intersection)
+app.post('/MakeFirstFull')(ConcatenatedGraphsController.make_full)
 
 if __name__ == "__main__":
     app.run()

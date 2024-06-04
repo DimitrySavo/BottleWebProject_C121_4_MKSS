@@ -5,7 +5,7 @@ import io
 import base64
 from models.Graph import Graph as MGraph
 import json
-
+#Функция, которая принимает данные с клинта и посылает ответ
 def check_path():
     data = request.json #Получение данных с клиента
     size = data['size']
@@ -17,7 +17,7 @@ def check_path():
     graph = MGraph(size)#Создание графа для математических подсчётов
     graph.add_nodesAndEdges(size,edges)
 
-    
+
 
     is_connected = graph.is_connected()
     is_path = graph.path(pathX - 1, pathY - 1)

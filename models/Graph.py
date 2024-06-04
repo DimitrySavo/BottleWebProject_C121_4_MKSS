@@ -4,6 +4,74 @@ import matplotlib.pyplot as plt
 import io
 import base64
 import json
+import os
+
+#нахождение делителей
+def find_divisors(n):
+    divisors = [i for i in range(1, n+1) if n % i == 0]
+    return divisors
+
+#построение строки для большой строки из маленьикх матриц
+def line_for_big_matrix(size, step, line_part):
+    line = [0] * size
+    line[step:step + len(line_part)] = line_part
+    return line
+
+#Вставка маленьких матриц в большую и после в список матриц
+def insert_in_matrix(matrix_list, small_matrix):
+    step = len(small_matrix[0])
+    big_matrix = [[0 for _ in range(len(matrix_list[0][0]))] for _ in range(len(matrix_list[0][0]))]
+    for i in range(len(big_matrix)):
+        big_matrix[i] = line_for_big_matrix(len(matrix_list[0][0]), step * (i//len(small_matrix)), small_matrix[i % len(small_matrix)])
+
+    matrix_list.append(big_matrix)
+    return matrix_list
+
+#построение строки матрицы для матриц
+def generate_matrix_line(amount, size, start_index):
+    l = [0] * size
+    for i in range(amount):
+        l[(1 + start_index + i)% size] = 1
+    for i in range(amount):
+        l[(size - 1 + start_index - i) % size] = 1
+    return l
+
+#генерация всех возможных правильных связных графов
+def generate_matrix(size):
+    all_matrix = []
+    if type(size) != int:
+        return all_matrix
+    if size == 1:
+        all_matrix.append([1])
+        return all_matrix
+    m = []
+    for i in range(size):
+        for j in range(size):
+            m.append(generate_matrix_line(i, size, j))
+        all_matrix.append(m)
+        if sum(m[0]) == size - 1:
+            print(f"Found a solution at iteration {i}")
+            break
+        m = []
+
+    return all_matrix
+
+
+def add_incoherenet_graphs(matrix_list, size):
+    if size % 2 == 0:
+        for div in find_divisors(size):
+            if div == 1 or div == size:
+                continue
+            list_of_small_matrixes = generate_matrix(div)
+            for small_matrix in list_of_small_matrixes:
+                matrix_list = insert_in_matrix(matrix_list, small_matrix)
+    return matrix_list  
+        
+
+def call_both(size):
+    matrix_list = generate_matrix(size)
+    matrix_list = add_incoherenet_graphs(matrix_list, size)
+    return matrix_list
 
 class Graph:
     def __init__(self, size):
@@ -41,9 +109,9 @@ class Graph:
     def get_edges(self):
         edges = []
         for i in range(self.size):
-            for j in range(i + 1, self.size):
+            for j in range(self.size):
                 if self.matrix[i][j] == 1:
-                    edges.append((i, j))
+                    edges.append([i, j])
         return edges
 
     def to_dict(self):
@@ -59,13 +127,13 @@ class Graph:
     #Алгоритм поиска в глубину
     def dfs(self, current, end, visited, nested_count):
         if current == end:
-            if self.matrix[current][end] == 1 and nested_count == 0: 
+            if self.matrix[current][end] == 1 and nested_count == 0: #Проверка на петлю
                 return True
             elif nested_count > 0:
                 return True
         nested_count += 1
-        visited[current] = True 
-        for neighbor in range(self.size): 
+        visited[current] = True #Вершина посещена
+        for neighbor in range(self.size): #переход на соседнии вершины
             if self.matrix[current][neighbor] == 1 and not visited[neighbor]:
                 if self.dfs(neighbor, end, visited, nested_count):
                     return True
@@ -78,22 +146,33 @@ class Graph:
                 return False
         return True
 
+    #Метод для подсчета степеней вершин у графа
     def degrees(self):
         degrees = [0] * self.size
         for i in range(self.size):
-            degrees[i] = sum(self.matrix[i])
+            for j in range(self.size):
+                if i == j and self.matrix[i][j] == 1: # степень +2 если это вершина
+                    degrees[i] += 2
+                elif self.matrix[i][j] == 1: # 
+                    degrees[i] += 1
         return degrees
-
-    def is_regular(self, amountOfVertexes):
-        if self.size == amountOfVertexes:
-            degrees = self.degrees()
-            first_degree = degrees[0]
-            for degree in degrees:
-                if degree != first_degree:
-                    return "Не правильный"
-            return "Правильный"
-        return "Неверное число вершин"
     
+    
+
+    #Метод для получения правильных графов с заданным количеством вершин
+    def is_regular(self, amountOfVertexes):
+        list_of_matrix = generate_matrix(amountOfVertexes)
+
+        if amountOfVertexes != 1:
+            # Проверяем каждую матрицу на наличие только нулей
+            non_empty_matrices = [matrix for matrix in list_of_matrix if any(any(row) for row in matrix)]
+
+            # Преобразование списка матриц в set кортежей
+            set_of_matrix = set(tuple(tuple(row) for row in matrix) for matrix in non_empty_matrices)
+            return set_of_matrix
+        else: 
+            return list_of_matrix
+            
     # Новый метод для подсчета числа ребер
     def count_edges(self):
         count = 0
@@ -147,3 +226,47 @@ class Graph:
             max_distance = max(max_distance, max(distances))
 
         return max_distance
+    
+    def save_base64_img(self, text):
+        history_file = os.path.join('history', 'history.txt')
+        try:
+            with open(history_file, 'a') as file:  # Открытие файла в режиме добавления
+                file.write(text + '\n')  # Запись строки и добавление новой строки
+            return True
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return False
+    
+    @staticmethod
+    def union(graph1, graph2): #Метод для поиска объединения графов
+        if graph1.size != graph2.size: #Размер графов должен совпадать
+            raise ValueError("Graphs must be of the same size to perform union")
+        new_graph = Graph(graph1.size)
+        for i in range(graph1.size):
+            for j in range(graph1.size): #Цикл в котором происходит формирование нового графа
+                if graph1.matrix[i][j] == 1 or graph2.matrix[i][j] == 1:
+                    new_graph.matrix[i][j] = 1
+        return new_graph
+
+    @staticmethod
+    def intersection(graph1, graph2): #Метод для поиска пересечения
+        if graph1.size != graph2.size: #Размер графов должен совпадать
+            raise ValueError("Graphs must be of the same size to perform intersection")
+        new_graph = Graph(graph1.size)
+        for i in range(graph1.size):
+            for j in range(graph1.size): #Цикл в котором происходит формирование нового графа
+                if graph1.matrix[i][j] == 1 and graph2.matrix[i][j] == 1:
+                    new_graph.matrix[i][j] = 1
+        return new_graph
+
+    @staticmethod
+    def complement(graph): #Метод для поиска дополнения
+        new_graph = Graph(graph.size)
+        for i in range(graph.size):
+            for j in range(graph.size): 
+                if graph.matrix[i][j] == 0:
+                    new_graph.matrix[i][j] = 1
+                if graph.matrix[i][j] == 1:
+                    new_graph.matrix[i][j] = 0
+        return new_graph
+    
