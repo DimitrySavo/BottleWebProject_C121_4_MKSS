@@ -5,31 +5,30 @@
     <title>Sample Page</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
-<body>
+<body class="body">
     <header>
-        <h1>Header</h1>
-        <a href="/about">About us</a>
+        {{ !header }}
     </header>
     <div class="grid-container">
-        <div class="grid-item item1" onclick="location.href='/page1'">
-            <h2>Box 1</h2>
-            <p>This is the first box.</p>
+        <div class="grid-item item1" onclick="location.href='/isolatedSubgraphsDiameter'">
+            <h2>Рёбра графа</h2>
+            <p>Страница может находить число ребер в 2 графах, число изолированных подграфов в первом графе и диаметр второго графа</p>
         </div>
-        <div class="grid-item item2" onclick="location.href='/page2'">
-            <h2>Box 2</h2>
-            <p>This is the second box.</p>
+        <div class="grid-item item2" onclick="location.href='/concatenatedGraphs'">
+            <h2>Объединение графов</h2>
+            <p>Страница может объединять 2 графа, искать пересечение двух графов и дополнять первый граф до полного графа</p>
         </div>
-        <div class="grid-item item3" onclick="location.href='/page3'">
-            <h2>Box 3</h2>
-            <p>This is the third box.</p>
+        <div class="grid-item item3" onclick="location.href='/edgesCount'">
+            <h2>Правильные графы и степени вершин</h2>
+            <p>Страница поможет в подстчете степеней вершин в двух графах, объяснит что это. Также страница объяснит что такое правильный граф, как его определить и поможет с определением правильности графа.</p>
         </div>
-        <div class="grid-item item4" onclick="location.href='/page4'">
-            <h2>Box 4</h2>
-            <p>This is the fourth box.</p>
+        <div class="grid-item item4" onclick="location.href='/vertexEdgesRights'">
+            <h2>Пути в графе</h2>
+            <p>Страница может проверять путь от X до Y в графе, а также определять является ли граф связным</p>
         </div>
     </div>
     <footer>
-        <p>Footer</p>
+        {{ !footer }}
     </footer>
 </body>
 </html>
