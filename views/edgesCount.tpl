@@ -94,7 +94,6 @@
         // Функция для обработки события "Проверить графы на правильность"
         function handleCheck(event) {
             event.preventDefault();
-            alert('Посчитать число изолированных подграфов');
 
             const size1 = parseInt(document.getElementById('size').value);
             const size2 = parseInt(document.getElementById('size2').value);
@@ -171,7 +170,6 @@
         // Функция для обработки события "Посчитать степени вершин"
         function handleDegree(event) {
             event.preventDefault();
-            alert('Посчитать число ребер');
             
             const size1 = parseInt(document.getElementById('size').value);
             const size2 = parseInt(document.getElementById('size2').value);

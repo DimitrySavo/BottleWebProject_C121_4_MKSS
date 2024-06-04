@@ -227,6 +227,16 @@ class Graph:
 
         return max_distance
     
+    def save_base64_img(self, text):
+        history_file = os.path.join('history', 'history.txt')
+        try:
+            with open(history_file, 'a') as file:  # Открытие файла в режиме добавления
+                file.write(text + '\n')  # Запись строки и добавление новой строки
+            return True
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return False
+    
     @staticmethod
     def union(graph1, graph2): #Метод для поиска объединения графов
         if graph1.size != graph2.size: #Размер графов должен совпадать
