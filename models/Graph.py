@@ -109,9 +109,9 @@ class Graph:
     def get_edges(self):
         edges = []
         for i in range(self.size):
-            for j in range(i + 1, self.size):
+            for j in range(self.size):
                 if self.matrix[i][j] == 1:
-                    edges.append((i, j))
+                    edges.append([i, j])
         return edges
 
     def to_dict(self):
@@ -227,13 +227,36 @@ class Graph:
 
         return max_distance
     
-    def save_base64_img(self, text):
-        history_file = os.path.join('history', 'history.txt')
-        try:
-            with open(history_file, 'a') as file:  # Открытие файла в режиме добавления
-                file.write(text + '\n')  # Запись строки и добавление новой строки
-            return True
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            return False
+    @staticmethod
+    def union(graph1, graph2): #Метод для поиска объединения графов
+        if graph1.size != graph2.size: #Размер графов должен совпадать
+            raise ValueError("Graphs must be of the same size to perform union")
+        new_graph = Graph(graph1.size)
+        for i in range(graph1.size):
+            for j in range(graph1.size): #Цикл в котором происходит формирование нового графа
+                if graph1.matrix[i][j] == 1 or graph2.matrix[i][j] == 1:
+                    new_graph.matrix[i][j] = 1
+        return new_graph
+
+    @staticmethod
+    def intersection(graph1, graph2): #Метод для поиска пересечения
+        if graph1.size != graph2.size: #Размер графов должен совпадать
+            raise ValueError("Graphs must be of the same size to perform intersection")
+        new_graph = Graph(graph1.size)
+        for i in range(graph1.size):
+            for j in range(graph1.size): #Цикл в котором происходит формирование нового графа
+                if graph1.matrix[i][j] == 1 and graph2.matrix[i][j] == 1:
+                    new_graph.matrix[i][j] = 1
+        return new_graph
+
+    @staticmethod
+    def complement(graph): #Метод для поиска дополнения
+        new_graph = Graph(graph.size)
+        for i in range(graph.size):
+            for j in range(graph.size): 
+                if graph.matrix[i][j] == 0:
+                    new_graph.matrix[i][j] = 1
+                if graph.matrix[i][j] == 1:
+                    new_graph.matrix[i][j] = 0
+        return new_graph
     
