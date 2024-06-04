@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from models.Graph import Graph
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -22,12 +23,18 @@ class DegreesTests(unittest.TestCase):
     def test_degrees_all_edges(self):
         # Тестирование функции degrees() при наличии всех ребер
         self.graphThreeNodes.matrix = [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
-        self.assertEqual(self.graphThreeNodes.degrees(), [3, 3, 3])
+        self.assertEqual(self.graphThreeNodes.degrees(), [4, 4, 4])
 
-    def disconnected_graph(self):
+    def test_disconnected_graph(self):
         #тестирование функции degrees() при 2х несвязных графов
         self.graphThreeNodes.matrix = [[1, 0, 0], [0, 0, 1], [0, 1, 0]]
-        self.assertEqual(self.graphThreeNodes.degrees(), [1, 1, 1])
+        self.assertEqual(self.graphThreeNodes.degrees(), [2, 1, 1])
+
+    def test_only_loop(self):
+        #тестирование функции degrees() при наличии только вершин с петлями
+        self.graphThreeNodes.matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+        self.assertEqual(self.graphThreeNodes.degrees(), [2, 2, 2])
+
 
 if __name__ == '__main__':
     unittest.main()

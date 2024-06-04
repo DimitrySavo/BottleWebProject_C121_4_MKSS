@@ -6,15 +6,18 @@ import base64
 import json
 import os
 
+#нахождение делителей
 def find_divisors(n):
     divisors = [i for i in range(1, n+1) if n % i == 0]
     return divisors
 
+#построение строки для большой строки из маленьикх матриц
 def line_for_big_matrix(size, step, line_part):
     line = [0] * size
     line[step:step + len(line_part)] = line_part
     return line
 
+#Вставка маленьких матриц в большую и после в список матриц
 def insert_in_matrix(matrix_list, small_matrix):
     step = len(small_matrix[0])
     big_matrix = [[0 for _ in range(len(matrix_list[0][0]))] for _ in range(len(matrix_list[0][0]))]
@@ -24,6 +27,7 @@ def insert_in_matrix(matrix_list, small_matrix):
     matrix_list.append(big_matrix)
     return matrix_list
 
+#построение строки матрицы для матриц
 def generate_matrix_line(amount, size, start_index):
     l = [0] * size
     for i in range(amount):
@@ -32,8 +36,15 @@ def generate_matrix_line(amount, size, start_index):
         l[(size - 1 + start_index - i) % size] = 1
     return l
 
+#генерация всех возможных правильных связных графов
 def generate_matrix(size):
     all_matrix = []
+    if type(size) != int:
+        return all_matrix
+    if size == 1:
+        all_matrix.append([0])
+        all_matrix.append([1])
+        return all_matrix
     m = []
     for i in range(size):
         for j in range(size):
@@ -45,6 +56,7 @@ def generate_matrix(size):
         m = []
 
     return all_matrix
+
 
 def add_incoherenet_graphs(matrix_list, size):
     if size % 2 == 0:
@@ -139,18 +151,28 @@ class Graph:
     def degrees(self):
         degrees = [0] * self.size
         for i in range(self.size):
-            degrees[i] = sum(self.matrix[i])
+            for j in range(self.size):
+                if i == j and self.matrix[i][j] == 1: # степень +2 если это вершина
+                    degrees[i] += 2
+                elif self.matrix[i][j] == 1: # 
+                    degrees[i] += 1
         return degrees
     
     
 
     #Метод для получения правильных графов с заданным количеством вершин
     def is_regular(self, amountOfVertexes):
-        list_of_matrix = call_both(amountOfVertexes)
+        list_of_matrix = generate_matrix(amountOfVertexes)
 
-        # Преобразование списка матриц в set кортежей
-        set_of_matrix = set(tuple(tuple(row) for row in matrix) for matrix in list_of_matrix)
-        return set_of_matrix
+        if amountOfVertexes != 1:
+            # Проверяем каждую матрицу на наличие только нулей
+            non_empty_matrices = [matrix for matrix in list_of_matrix if any(any(row) for row in matrix)]
+
+            # Преобразование списка матриц в set кортежей
+            set_of_matrix = set(tuple(tuple(row) for row in matrix) for matrix in non_empty_matrices)
+            return set_of_matrix
+        else: 
+            return list_of_matrix
             
     # Новый метод для подсчета числа ребер
     def count_edges(self):
