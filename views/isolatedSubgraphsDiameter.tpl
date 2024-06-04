@@ -142,7 +142,7 @@
                 console.error('Error:', error);
             });
 
-            fetch('/EdgesCount', {
+            /*fetch('/EdgesCount', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -157,7 +157,7 @@
             })
             .catch((error) => {
                 console.error('Error:', error);
-            });
+            });*/
         }
 
         // Функция для обработки события "Посчитать число изолированных подграфов"

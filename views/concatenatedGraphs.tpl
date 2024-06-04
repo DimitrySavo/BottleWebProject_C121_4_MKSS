@@ -5,6 +5,13 @@
     <title>Graph Adjacency Matrix</title>
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="stylesheet" href="/static/basePageStyle.css">
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <header>
     {{ !header }}
@@ -21,11 +28,12 @@
             <div>
                 <div class="right full-width" id="right-container">
                     <div class="container-base-page">
-                        <form id="matrix-form">
+                        <form id="matrix-form1">
                             <h1>Создать матрицу</h1>
                             <label class="margined-button" for="size">Размер графа:</label>
-                            <input type="number" id="size" name="size" min="1" required>
-                            <button type="button" onclick="generateMatrix()">Создать</button>
+                            <input type="number" id="size1" name="size" min="1" required>
+                            <button type="button" onclick="generateMatrixOnPage('matrix-container', 'size1')">Создать</button>
+                            <span id="size1-error" class="error-message"></span>
                             <div id="matrix-container" class="matrix-container"></div>
                         </form>
                     </div>
@@ -33,18 +41,19 @@
 
                     <div class="right full-width" id="right-container">
                         <div class="container-base-page">
-                            <form id="matrix-form">
+                            <form id="matrix-form2">
                                 <h1>Создать матрицу</h1>
                                 <label  class="margined-button" for="size">Размер графа:</label>
-                                <input type="number" id="size" name="size" min="1" required>
-                                <button type="button" onclick="generateMatrix()">Создать</button>
-                                <div id="matrix-container" class="matrix-container"></div>
+                                <input type="number" id="size2" name="size" min="1" required>
+                                <button type="button" onclick="generateMatrixOnPage('matrix-container2', 'size2')">Создать</button>
+                                <span id="size2-error" class="error-message"></span>
+                                <div id="matrix-container2" class="matrix-container"></div>
                             </form>
                         </div>
                         <div class="container-base-page">
-                            <button type="button">Объединение</button>
-                            <button class="margined-button" type="button">Пересечение</button>
-                            <button class="margined-button" type="button">Дополнение</button>
+                            <button id="union-button" type="button">Объединение</button>
+                            <button id="intersection-button" class="margined-button" type="button">Пересечение</button>
+                            <button id="complement-button" class="margined-button" type="button">Дополнение</button>                            
                         </div>  
                     </div>
             </div>
@@ -73,59 +82,140 @@
         </div>
     </div>
 
+    <script src="/scripts/generateMatrixFun.js"></script>
     <script>
-        function generateMatrix() {
-            const size = parseInt(document.getElementById('size').value);
-            if (isNaN(size)) {
-                alert("Please enter a valid number for the size of the graph.");
+        function generateMatrixOnPage(id, sizeId) {
+            const size = parseInt(document.getElementById(sizeId).value);
+            const errorElement = document.getElementById(`${sizeId}-error`);
+
+            if (isNaN(size) || size < 1 || size > 10) {
+                errorElement.textContent = "Введите корректный размер графа (от 1 до 10).";
                 return;
             }
-            const container = document.getElementById('matrix-container');
-            container.innerHTML = '';
 
-            const table = document.createElement('table');
-            table.style.minWidth = (size + 1) * 50 + 'px'; // Установка минимальной ширины таблицы
-            for (let i = 0; i <= size; i++) {
-                const row = document.createElement('tr');
-                for (let j = 0; j <= size; j++) {
-                    const cell = document.createElement(i === 0 || j === 0 ? 'th' : 'td');
-                    if (i === 0 && j > 0) {
-                        cell.innerText = j;
-                        cell.classList.add('sticky-header');
-                    } else if (j === 0 && i > 0) {
-                        cell.innerText = i;
-                        cell.classList.add('sticky-col');
-                    } else if (i > 0 && j > 0) {
-                        const input = document.createElement('input');
-                        input.type = 'checkbox';
-                        input.name = `cell-${i-1}-${j-1}`;
-                        input.dataset.row = i - 1;
-                        input.dataset.col = j - 1;
-                        input.addEventListener('change', handleCheckboxChange);
-                        cell.appendChild(input);
-                    }
-                    if (i === 0 || j === 0) {
-                        cell.classList.add('sticky-col');
-                    }
-                    row.appendChild(cell);
-                }
-                table.appendChild(row);
-            }
-            container.appendChild(table);
+            errorElement.textContent = '';
+            const container = document.getElementById(id);
+            container.innerHTML = '';
+            container.appendChild(generateMatrix(size, id));
         }
 
         function handleCheckboxChange(event) {
             const checkbox = event.target;
             const row = parseInt(checkbox.dataset.row);
             const col = parseInt(checkbox.dataset.col);
-            const correspondingCheckbox = document.querySelector(`input[name="cell-${col}-${row}"]`);
+            let name = checkbox.name.split('-');
+            name[name.length - 2] = col;
+            name[name.length - 1] = row;
+            const correspondingCheckbox = document.querySelector(`input[name="${name.toString().replace(/,/g, '-')}"]`);
             correspondingCheckbox.checked = checkbox.checked;
         }
 
-        document.getElementById('matrix-form').addEventListener('submit', function(event) {
+        document.getElementById('union-button').addEventListener('click', handleUnion);
+        document.getElementById('intersection-button').addEventListener('click', handleIntersection);
+        document.getElementById('complement-button').addEventListener('click', handleMakeFull);
+
+        function handleUnion(event) {
             event.preventDefault();
 
-            const size = parseInt(document.getElementById('size').value);
+            const size1 = parseInt(document.getElementById('size1').value);
+            const size2 = parseInt(document.getElementById('size2').value);
+
+            if (size1 != size2) {
+                alert("Размеры матриц должны совпадать");
+                return;
+            }
+
+            const edges1 = [];
+            for (let i = 0; i < size1; i++) {
+                for (let j = 0; j < size1; j++) {
+                    const checkbox = document.querySelector(`input[name="matrix-container-cell-${i}-${j}"]`);
+                    if (checkbox && checkbox.checked) {
+                        edges1.push([i, j]);
+                    }
+                }
+            }
+
+            const edges2 = [];
+            for (let i = 0; i < size2; i++) {
+                for (let j = 0; j < size2; j++) {
+                    const checkbox = document.querySelector(`input[name="matrix-container2-cell-${i}-${j}"]`);
+                    if (checkbox && checkbox.checked) {
+                        edges2.push([i, j]);
+                    }
+                }
+            }
+
+            fetch('/CreateUnitedGraph', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ size1,edges1,size2,edges2})
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('image-container').classList.remove('hidden');
+                document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        function handleIntersection(event) {
+            event.preventDefault();
+
+            const size1 = parseInt(document.getElementById('size1').value);
+            const size2 = parseInt(document.getElementById('size2').value);
+
+            
+            if (size1 != size2) {
+                alert("Размеры матриц должны совпадать");
+                return;
+            }
+
+            const edges1 = [];
+            for (let i = 0; i < size1; i++) {
+                for (let j = 0; j < size1; j++) {
+                    const checkbox = document.querySelector(`input[name="matrix-container-cell-${i}-${j}"]`);
+                    if (checkbox && checkbox.checked) {
+                        edges1.push([i, j]);
+                    }
+                }
+            }
+
+            const edges2 = [];
+            for (let i = 0; i < size2; i++) {
+                for (let j = 0; j < size2; j++) {
+                    const checkbox = document.querySelector(`input[name="matrix-container2-cell-${i}-${j}"]`);
+                    if (checkbox && checkbox.checked) {
+                        edges2.push([i, j]);
+                    }
+                }
+            }
+
+            fetch('/CreateIntersection', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ size1,edges1,size2,edges2})
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('image-container').classList.remove('hidden');
+                document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        function handleMakeFull(event) {
+            event.preventDefault();
+
+            const size = parseInt(document.getElementById('size1').value);
+
             if (isNaN(size)) {
                 alert("Please enter a valid number for the size of the graph.");
                 return;
@@ -134,36 +224,29 @@
             const edges = [];
             for (let i = 0; i < size; i++) {
                 for (let j = 0; j < size; j++) {
-                    const checkbox = document.querySelector(`input[name="cell-${i}-${j}"]`);
+                    const checkbox = document.querySelector(`input[name="matrix-container-cell-${i}-${j}"]`);
                     if (checkbox && checkbox.checked) {
                         edges.push([i, j]);
                     }
                 }
             }
 
-            fetch('/checkConcatenatedGraphs', {
+            fetch('/MakeFirstFull', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ size, edges }),
+                body: JSON.stringify({ size,edges })
             })
             .then(response => response.json())
             .then(data => {
-                //alert(`Graph created! Check the console for the adjacency matrix.\nIs Connected: ${data.is_connected}`);
-                console.log(data.matrix);
-                console.log(data.is_connected);
-                // Обновляем изображение графа
-                
-                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
-                document.getElementById('right-container').classList.replace('full-width', 'half-width');
                 document.getElementById('image-container').classList.remove('hidden');
                 document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
-        });
+        }
     </script>
 </body>
 <footer>
