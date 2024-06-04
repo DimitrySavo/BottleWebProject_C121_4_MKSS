@@ -131,10 +131,13 @@ button {
     margin-top: 10px;
     background-color: #007bff;
     color: white;
-    font-size: 30px;
+    font-size: 15px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
+}
+.margined-button {
+    margin-left: 5px;
 }
 button:hover {
     background-color: #0056b3;
