@@ -14,17 +14,12 @@ try:
     driver.get("http://127.0.0.1:8080/vertexEdgesRights")
 
     # Ввод размера графа
-    size_input = driver.find_element(By.ID, "size").send_keys("3")
+    size_input = driver.find_element(By.ID, "size").send_keys("20")
 
     # Нажатие на кнопку создания матрицы
     generate_button = driver.find_element(By.XPATH, "//button[text()='Создать матрицу смежности']").click()
 
-    # Ожидание появления матрицы
-    #WebDriverWait(driver, 10).until(
-    #    EC.presence_of_element_located((By.ID, "matrix-container"))
-    #)
-
-    # Установка значений в матрице смежности (предположим, что это checkboxes)
+    # Установка значений в матрице смежности
     checkboxes = [
         "matrix-container-cell-0-1",
         "matrix-container-cell-1-0",
@@ -51,11 +46,10 @@ try:
     result_path = driver.find_element(By.ID, "ResultPath")
     result_linked = driver.find_element(By.ID, "ResultLinked")
 
-    print("ResultPath:", result_path.text)
-    print("ResultLinked:", result_linked.text)
+    print("ResultPath:", result_path)
+    print("ResultLinked:", result_linked)
     
     time.sleep(10)
 
 finally:
-    # Закрытие браузера
     driver.quit()
