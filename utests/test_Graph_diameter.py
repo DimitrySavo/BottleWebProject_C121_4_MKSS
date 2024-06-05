@@ -14,7 +14,7 @@ class TestDiameter(unittest.TestCase):
         # Тест 2: Граф с 4 узлами и без ребер
         graph2 = Graph(4)
         graph2.add_edges_from([])
-        self.assertEqual(graph2.diameter(), None)  # Нет связей, граф несвязный
+        self.assertEqual(graph2.diameter(), 0)  # Нет связей, граф несвязный
 
         # Тест 3: Линейный граф с 4 узлами
         graph3 = Graph(4)
@@ -34,7 +34,7 @@ class TestDiameter(unittest.TestCase):
         # Тест 6: Несвязный граф с 4 узлами
         graph6 = Graph(4)
         graph6.add_edges_from([[0, 1], [2, 3]])
-        self.assertEqual(graph6.diameter(), None)  # Граф несвязный
+        self.assertEqual(graph6.diameter(), 0)  # Граф несвязный
 
 if __name__ == '__main__':
     unittest.main()

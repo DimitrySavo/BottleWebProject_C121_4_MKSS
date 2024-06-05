@@ -224,7 +224,7 @@ class Graph:
         for i in range(self.size):
             distances = bfs(i)
             if -1 in distances:
-                return None  # Если есть недостижимые узлы, граф несвязный
+                return 0  # Если есть недостижимые узлы, граф несвязный
             max_distance = max(max_distance, max(distances))
 
         return max_distance
