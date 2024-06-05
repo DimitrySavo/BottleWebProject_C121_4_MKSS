@@ -5,11 +5,18 @@
     <title>Graph Adjacency Matrix</title>
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="stylesheet" href="/static/basePageStyle.css">
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+    </style>
 </head>
-<header>
-    {{ !header }}
-</header>
 <body>
+    <header>
+        {{ !header }}
+    </header>
     <div class="main-container">
         <div class="container-base-page">
             <div class="left zero-width" id="left-container">
@@ -19,21 +26,23 @@
             </div>
             <div class="right full-width" id="right-container">
                 <div class="container-base-page right-container-with-answer">
-                    <form id="matrix-form">
+                    <form id="matrix-form1">
                         <h1>Введите граф через матрицу смежности</h1>
-                        <label for="size1">Размер графа:</label>
+                        <label class="margined-button" for="size1">Размер графа:</label>
                         <input type="number" id="size1" name="size1" min="1" required>
-                        <button type="button" onclick="generateMatrixOnPage('matrix-container', 'size1')">Создать матрицу смежности</button>
-                        <div id="matrix-container" class="matrix-container"></div>
-                        <button type="button" class="submit-edgesCount">Посчитать число ребер</button>
-                        <button type="button" class="submit-countIsolatedSubgraphs">Посчитать число изолированных подграфов</button>
-                        <button type="button" class="submit-calculateDiameter">Посчитать диаметр графа</button>
+                        <button type="button" id="create-first-matrix" onclick="generateMatrixOnPage('matrix-container1', 'size1')">Создать матрицу смежности</button>
+                        <span id="size1-error" class="error-message"></span>
+                        <div id="matrix-container1" class="matrix-container"></div>
+                        <button type="button" class="submit-edgesCount" id="edges-count-button">Посчитать число ребер</button>
+                        <button type="button" class="submit-countIsolatedSubgraphs" id="isolated-subgraphs-button">Посчитать число изолированных подграфов</button>
+                        <button type="button" class="submit-calculateDiameter" id="diameter-button">Посчитать диаметр графа</button>
                     </form>
                     <form id="matrix-form2">
                         <h1>Введите граф через матрицу смежности</h1>
-                        <label for="size2">Размер графа:</label>
+                        <label class="margined-button" for="size2">Размер графа:</label>
                         <input type="number" id="size2" name="size2" min="1" required>
-                        <button type="button" onclick="generateMatrixOnPage('matrix-container2', 'size2')">Создать матрицу смежности</button>
+                        <button type="button" id="create-second-matrix" onclick="generateMatrixOnPage('matrix-container2', 'size2')">Создать матрицу смежности</button>
+                        <span id="size2-error" class="error-message"></span>
                         <div id="matrix-container2" class="matrix-container"></div>
                     </form>
                     <div id="results" class="results-container"> <!-- Добавлен контейнер для результатов -->
@@ -78,16 +87,20 @@
     <script src="/scripts/generateMatrixFun.js"></script>
     <script>
         function generateMatrixOnPage(id, sizeId) {
-            const container = document.getElementById(id);
-            container.innerHTML = '';
             const size = parseInt(document.getElementById(sizeId).value);
-            if (isNaN(size) || size < 1) {
-                alert('Please enter a valid number for the size of the graph.');
+            const errorElement = document.getElementById(`${sizeId}-error`);
+
+            if (isNaN(size) || size < 1 || size > 10) {
+                errorElement.textContent = "Введите корректный размер графа (от 1 до 10).";
                 return;
             }
+
+            errorElement.textContent = '';
+            const container = document.getElementById(id);
+            container.innerHTML = '';
             container.appendChild(generateMatrix(size, id));
         }
-    
+
         function handleCheckboxChange(event) {
             const checkbox = event.target;
             const row = parseInt(checkbox.dataset.row);
@@ -96,193 +109,109 @@
             name[name.length - 2] = col;
             name[name.length - 1] = row;
             const correspondingCheckbox = document.querySelector(`input[name="${name.toString().replace(/,/g, '-')}"]`);
-            if (correspondingCheckbox) {
-                correspondingCheckbox.checked = checkbox.checked;
-            }
+            correspondingCheckbox.checked = checkbox.checked;
         }
-    
-        document.querySelector('.submit-edgesCount').addEventListener('click', handleEdgesCount);
-        document.querySelector('.submit-countIsolatedSubgraphs').addEventListener('click', handleCountIsolatedSubgraphs);
-        document.querySelector('.submit-calculateDiameter').addEventListener('click', handleCalculateDiameter);
-        
-        function handleEdgesCount(event) {
-            event.preventDefault();
-    
-            const size1 = parseInt(document.getElementById('size1').value);
-            const size2 = parseInt(document.getElementById('size2').value);
-    
-            if (isNaN(size1) || size1 < 1) {
-                alert("Please enter a valid number for the size of the first graph.");
-                return;
-            }
-    
-            const edges1 = [];
-            for (let i = 0; i < size1; i++) {
-                for (let j = 0; j < size1; j++) {
-                    const checkbox = document.querySelector(`input[name="matrix-container-cell-${i}-${j}"]`);
-                    if (checkbox && checkbox.checked) {
-                        edges1.push([i, j]);
-                    }
-                }
-            }
-    
-            const edges2 = [];
-            if (!isNaN(size2) && size2 > 0) {
-                for (let i = 0; i < size2; i++) {
-                    for (let j = 0; j < size2; j++) {
-                        const checkbox = document.querySelector(`input[name="matrix-container2-cell-${i}-${j}"]`);
-                        if (checkbox && checkbox.checked) {
-                            edges2.push([i, j]);
-                        }
-                    }
-                }
-            }
-    
-            fetch('/Create2Graph', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ size1, edges1, size2, edges2 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
-                document.getElementById('right-container').classList.replace('full-width', 'half-width');
-                document.getElementById('image-container').classList.remove('hidden');
-                document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
 
-            /*fetch('/EdgesCount', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ size1, size2, edges1, edges2 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('edgesCountResult').innerHTML = `Число ребер в первом графе: ${data.edgesCount} и во втором ${data.edgesCount2}`;
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });*/
-        }
-    
-        function handleCountIsolatedSubgraphs(event) {
-            event.preventDefault();
-    
-            const size = parseInt(document.getElementById('size1').value);
-    
-            if (isNaN(size) || size < 1) {
-                alert("Please enter a valid number for the size of the graph.");
-                return;
-            }
-    
-            const edges = [];
-            for (let i = 0; i < size; i++) {
-                for (let j = 0; j < size; j++) {
-                    const checkbox = document.querySelector(`input[name="matrix-container-cell-${i}-${j}"]`);
-                    if (checkbox && checkbox.checked) {
-                        edges.push([i, j]);
-                    }
+        document.getElementById('edges-count-button').addEventListener('click', handleEdgesCount);
+        document.getElementById('isolated-subgraphs-button').addEventListener('click', handleIsolatedSubgraphsCount);
+        document.getElementById('diameter-button').addEventListener('click', handleDiameterCalculation);
+
+        async function handleEdgesCount() {
+            const matrix = readMatrixFromPage('matrix-container1');
+            if (matrix) {
+                const response = await fetch('/calculate-edges', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(matrix),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    document.getElementById('edgesCountResult').textContent = `Число рёбер: ${result.edgesCount}`;
                 }
             }
-    
-            fetch('/CreateGraph', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ size, edges })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
-                document.getElementById('right-container').classList.replace('full-width', 'half-width');
-                document.getElementById('image-container').classList.remove('hidden');
-                document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    
-            fetch('/IsolatedSubgraphsCount', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ size, edges })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('isolatedSubgraphsResult').innerHTML = `\nЧисло изолированных подграфов в первом графе: ${data.isolatedSubgraphsCount}`;
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
         }
-    
-        function handleCalculateDiameter(event) {
-            event.preventDefault();
-            
-            const size = parseInt(document.getElementById('size2').value);
-    
-            if (isNaN(size) || size < 1) {
-                alert("Please enter a valid number for the size of the graph.");
-                return;
-            }
-    
-            const edges = [];
-            for (let i = 0; i < size; i++) {
-                for (let j = 0; j < size; j++) {
-                    const checkbox = document.querySelector(`input[name="matrix-container2-cell-${i}-${j}"]`);
-                    if (checkbox && checkbox.checked) {
-                        edges.push([i, j]);
-                    }
+
+        async function handleIsolatedSubgraphsCount() {
+            const matrix = readMatrixFromPage('matrix-container1');
+            if (matrix) {
+                const response = await fetch('/calculate-isolated-subgraphs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(matrix),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    document.getElementById('isolatedSubgraphsResult').textContent = `Число изолированных подграфов: ${result.isolatedSubgraphsCount}`;
                 }
             }
-    
-            fetch('/CreateGraph', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ size, edges })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
-                document.getElementById('right-container').classList.replace('full-width', 'half-width');
-                document.getElementById('image-container').classList.remove('hidden');
-                document.getElementById('graph-image').src = 'data:image/png;base64,' + data.image_base64;
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    
-            fetch('/CalculateDiameter', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ size, edges })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('diameterResult').innerHTML = `\nДиаметр второго графа — длину максимальной цепи в графе: ${data.diameter}`;
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+        }
+
+        async function handleDiameterCalculation() {
+            const matrix = readMatrixFromPage('matrix-container1');
+            if (matrix) {
+                const response = await fetch('/calculate-diameter', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(matrix),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    document.getElementById('diameterResult').textContent = `Диаметр графа: ${result.diameter}`;
+                }
+            }
+        }
+
+        function generateMatrix(size, id) {
+            const table = document.createElement('table');
+            for (let i = 0; i < size; i++) {
+                const row = document.createElement('tr');
+                for (let j = 0; j < size; j++) {
+                    const cell = document.createElement('td');
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.name = `matrix-${id}-${i}-${j}`;
+                    checkbox.dataset.row = i;
+                    checkbox.dataset.col = j;
+                    if (i !== j) {
+                        checkbox.addEventListener('change', handleCheckboxChange);
+                    }
+                    cell.appendChild(checkbox);
+                    row.appendChild(cell);
+                }
+                table.appendChild(row);
+            }
+            return table;
+        }
+
+        function readMatrixFromPage(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return null;
+
+            const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+            if (!checkboxes.length) return null;
+
+            const size = Math.sqrt(checkboxes.length);
+            const matrix = [];
+
+            for (let i = 0; i < size; i++) {
+                matrix.push([]);
+                for (let j = 0; j < size; j++) {
+                    const checkbox = container.querySelector(`input[name="matrix-${containerId}-${i}-${j}"]`);
+                    matrix[i].push(checkbox.checked ? 1 : 0);
+                }
+            }
+
+            return matrix;
         }
     </script>
-    
 </body>
-<footer>
-    {{ !footer }}
-</footer>
 </html>
