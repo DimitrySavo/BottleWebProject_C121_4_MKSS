@@ -13,26 +13,26 @@
         }
     </style>
 </head>
-<header>
-    {{ !header }}
-</header>
 <body>
+    <header>
+        {{ !header }}
+    </header>
     <div class="main-container">
         <div class="container-base-page">
             <div class="left half-width" id="left-container">
                 <div class="image-container hidden" id="image-container">
-                    <img id="graph-image" alt="Graph Image">
+                    <img id="graph-image" alt="Graph Image" src="../static/images/Graph.png"/>
                 </div>
             </div>
 
             <div>
-                <div class="right full-width" id="right-container">
+                <div class="right full-width">
                     <div class="container-base-page">
                         <form id="matrix-form1">
                             <h1>Создать матрицу</h1>
-                            <label class="margined-button" for="size">Размер графа:</label>
+                            <label class="margined-button" for="size1">Размер графа:</label>
                             <input type="number" id="size1" name="size" min="1" required>
-                            <button type="button" onclick="generateMatrixOnPage('matrix-container', 'size1')">Создать</button>
+                            <button type="button" id="create-first-matrix" onclick="generateMatrixOnPage('matrix-container', 'size1')">Создать</button>
                             <span id="size1-error" class="error-message"></span>
                             <div id="matrix-container" class="matrix-container"></div>
                         </form>
@@ -43,9 +43,9 @@
                         <div class="container-base-page">
                             <form id="matrix-form2">
                                 <h1>Создать матрицу</h1>
-                                <label  class="margined-button" for="size">Размер графа:</label>
+                                <label  class="margined-button" for="size2">Размер графа:</label>
                                 <input type="number" id="size2" name="size" min="1" required>
-                                <button type="button" onclick="generateMatrixOnPage('matrix-container2', 'size2')">Создать</button>
+                                <button type="button" id="create-second-matrix" onclick="generateMatrixOnPage('matrix-container2', 'size2')">Создать</button>
                                 <span id="size2-error" class="error-message"></span>
                                 <div id="matrix-container2" class="matrix-container"></div>
                             </form>
@@ -63,16 +63,16 @@
         <div class="bottom">
             <h1>Граф</h1>
             <p>Графом G(V,E) называется совокупность двух множеств – непустого множества V (вершин) и множества E (ребер) – двухэлементных подмножеств множества V</p>
-            <img src="/static/images/Graph.png"></img>
-            <h2>Неориентированный граф</h1>
+            <img src="/static/images/Graph.png" alt="Изображение графа"/>
+            <h2>Неориентированный граф</h2>
             <p>Граф, ни одному ребру которого не присвоено направление, называется неориентированным графом или неорграфом.</p>
             <div class="image-with-text">
-                <img src="/static/images/UnOrientedGraph.png"></img>
+                <img src="/static/images/UnOrientedGraph.png" alt="Изображение графа"/>
                 <p>В общем случае графы обоих типов могут содержать и петли. Петля в обоих случаях не имеет ориентации: это ребро, инцидентное только одной вершине. В определении таких графов следует опустить условие u не равно v. Граф обычно изображается на плоскости в виде множества точек, соответствующих вершинам, и соединяющих их линий, соответствующих ребрам. Линия, изображающая ребро {u, v} или дугу (u, v), соединяет точки, изображающие вершины u, v, причем во втором случае стрелка обозначает направление от u к v:</p>
             </div>
-            <h2>Путь в неориентированном графе</h1>
+            <h2>Путь в неориентированном графе</h2>
             <p>Путь в графе — последовательность вершин, в которой каждая вершина соединена со следующей ребром. Из этого следует что проверить путь от X в Y значит пройтись по всем ребрам от X в Y и проверить существует ли между ними связь.</p>
-            <h2>Связный граф</h1>
+            <h2>Связный граф</h2>
             <p>Граф называется связным, если для любых двух вершин существует путь, состоящий из рёбер, который соединяет эти вершины. В противном случае граф называется несвязным.</p>
              <h2>Пересечение графов </h2>
             <p>Переcечение графов - это операция, в результате которой создаётся новый граф, содержащий только те рёбра, которые присутствуют как в первом, так и во втором графе. Иными словами, это нахождение общих элементов между двумя графами.</p>
@@ -81,7 +81,6 @@
             <h2>Объединение графов</h2>
             <p>Объединение графов - это операция, в результате которой создаётся новый граф, содержащий все рёбра, которые присутствуют хотя бы в одном из объединяемых графов.</p>
         </div>
-    </div>
 
     <script src="/scripts/generateMatrixFun.js"></script>
     <script>
@@ -249,8 +248,8 @@
             });
         }
     </script>
+    <footer>
+        {{ !footer }}
+    </footer>
 </body>
-<footer>
-    {{ !footer }}
-</footer>
 </html>
