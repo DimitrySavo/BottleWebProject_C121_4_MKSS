@@ -94,7 +94,6 @@
         // Функция для обработки события "Проверить графы на правильность"
         function handleCheck(event) {
             event.preventDefault();
-            alert('Посчитать число изолированных подграфов');
 
             const size1 = parseInt(document.getElementById('size').value);
             const size2 = parseInt(document.getElementById('size2').value);
@@ -135,7 +134,9 @@
                 },
                 body: JSON.stringify({ size1,edges1,size2,edges2})
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+                response.json()})
             .then(data => {
                 document.getElementById('left-container').classList.replace('zero-width', 'half-width2');
                 document.getElementById('right-container').classList.replace('full-width', 'half-width');
@@ -155,17 +156,20 @@
             })
             .then(response => response.json())
             .then(data =>{
+                console.log(data.set_of_regular_graphs)
                 document.getElementById('ResultRegularFirst').classList.remove('hidden');
                 document.getElementById('ResultRegularSecond').classList.remove('hidden');
-                document.getElementById('ResultRegularFirst').textContent = `Граф 1: ${ data.is_first_regular}`
-                document.getElementById('ResultRegularSecond').textContent = `Граф 2: ${data.is_second_regular}`
+                let matricesString = data.set_of_regular_graphs.map(matrix => {
+                    return matrix.map(row => row.join(' ')).join('\n');
+                }).join('\n\n');
+
+                document.getElementById('ResultRegularFirst').innerHTML = `<pre><code>${matricesString}</code></pre>`;
             })
         }
 
         // Функция для обработки события "Посчитать степени вершин"
         function handleDegree(event) {
             event.preventDefault();
-            alert('Посчитать число ребер');
             
             const size1 = parseInt(document.getElementById('size').value);
             const size2 = parseInt(document.getElementById('size2').value);

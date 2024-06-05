@@ -35,16 +35,11 @@ def is_regular_graphs_with_n():
     edges2 = data["edges2"]
     amountOfVertexes = data["amountOfVertexes"]
 
-    graph1 = MGraph(size1)
-    graph2 = MGraph(size2)
+    graph1 = MGraph(amountOfVertexes)
 
-    graph1.add_nodesAndEdges(size1, edges1)
-    graph2.add_nodesAndEdges(size2, edges2)
-
-    is_first_regular = graph1.is_regular(amountOfVertexes)
-    is_second_regular = graph2.is_regular(amountOfVertexes)
+    set_of_regular_graphs = graph1.is_regular(amountOfVertexes)
 
     graph1.save_base64_img(f"{size1}, {size2}, {edges1}, {edges2}")
 
-    return json.dumps({'is_first_regular' : is_first_regular, 'is_second_regular' : is_second_regular})
+    return json.dumps({'set_of_regular_graphs' : list(set_of_regular_graphs)})
 
