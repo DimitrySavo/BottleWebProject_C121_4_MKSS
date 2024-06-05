@@ -223,9 +223,12 @@ class Graph:
         max_distance = 0
         for i in range(self.size):
             distances = bfs(i)
+            if -1 in distances:
+                return None  # Если есть недостижимые узлы, граф несвязный
             max_distance = max(max_distance, max(distances))
 
         return max_distance
+
     
     def save_base64_img(self, text):
         history_file = os.path.join('history', 'history.txt')
